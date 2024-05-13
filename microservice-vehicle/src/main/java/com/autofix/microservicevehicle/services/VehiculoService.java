@@ -19,4 +19,8 @@ public class VehiculoService {
     public List<Vehiculo> obtenerVehiculos() {
         return vehiculoRepository.findAll();
     }
+
+    public Vehiculo obtenerVehiculoPorPatente(String patente) {
+        return vehiculoRepository.encontrarPorPatente(patente);
+    }
 }

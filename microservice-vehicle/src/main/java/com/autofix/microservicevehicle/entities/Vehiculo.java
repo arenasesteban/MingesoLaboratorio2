@@ -12,13 +12,13 @@ import lombok.NoArgsConstructor;
 public class Vehiculo {
     @Id
     @Column(unique = true, nullable = false)
-    private String license_plate;
+    private String patente;
 
-    private String brand;
-    private String model;
-    private String type;
-    private String engine;
-    private Integer number_seats;
-    private Integer kilometers;
-    private Integer year_manufacture;
+    private String marca;
+    private String modelo;
+    private String tipo;
+    private String motor;
+    private Integer numero_asientos;
+    private Integer kilometraje;
+    private Integer ano_fabricacion;
 }

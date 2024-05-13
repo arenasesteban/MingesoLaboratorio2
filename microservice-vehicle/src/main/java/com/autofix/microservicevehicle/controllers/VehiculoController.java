@@ -16,14 +16,20 @@ public class VehiculoController {
     VehiculoService vehiculoService;
 
     @PostMapping("/")
-    public ResponseEntity<Vehiculo> createVehicle(@RequestBody Vehiculo vehiculo) {
+    public ResponseEntity<Vehiculo> crearVehiculo(@RequestBody Vehiculo vehiculo) {
         Vehiculo vehiculo1 = vehiculoService.crearVehiculo(vehiculo);
         return ResponseEntity.ok(vehiculo1);
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<Vehiculo>> getVehicles() {
+    public ResponseEntity<List<Vehiculo>> obtenerVehiculos() {
         List<Vehiculo> vehiculos = vehiculoService.obtenerVehiculos();
         return ResponseEntity.ok(vehiculos);
+    }
+
+    @GetMapping("/patente")
+    public ResponseEntity<Vehiculo> obtenerVehiculoPorPatente(@RequestParam String patente) {
+        Vehiculo vehiculo = vehiculoService.obtenerVehiculoPorPatente(patente);
+        return ResponseEntity.ok(vehiculo);
     }
 }

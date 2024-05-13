@@ -11,7 +11,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/registro")
 @CrossOrigin("*")
-public class RegistryController {
+public class RegistroController {
     @Autowired
     RegistroService registroService;
 
