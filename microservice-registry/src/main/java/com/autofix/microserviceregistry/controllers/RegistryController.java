@@ -1,7 +1,7 @@
 package com.autofix.microserviceregistry.controllers;
 
-import com.autofix.microserviceregistry.entities.Registry;
-import com.autofix.microserviceregistry.services.RegistryService;
+import com.autofix.microserviceregistry.entities.Registro;
+import com.autofix.microserviceregistry.services.RegistroService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,21 +9,21 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/registry")
+@RequestMapping("/registro")
 @CrossOrigin("*")
 public class RegistryController {
     @Autowired
-    RegistryService registryService;
+    RegistroService registroService;
 
     @PostMapping("/")
-    public ResponseEntity<Registry> createRegistry(@RequestBody Registry registry) {
-        Registry registry1 = registryService.createRegistry(registry);
-        return ResponseEntity.ok(registry1);
+    public ResponseEntity<Registro> crearRegistro(@RequestBody Registro registro) {
+        Registro registro1 = registroService.crearRegistro(registro);
+        return ResponseEntity.ok(registro1);
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<Registry>> getRegistries() {
-        List<Registry> registries = registryService.getRegistries();
-        return ResponseEntity.ok(registries);
+    public ResponseEntity<List<Registro>> obtenerRegistros() {
+        List<Registro> registros = registroService.obtenerRegistros();
+        return ResponseEntity.ok(registros);
     }
 }

@@ -1,4 +1,4 @@
-package com.autofix.microserviceregistry.entities;
+package com.autofix.microservicerepair.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -12,19 +12,18 @@ import java.time.LocalTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Registry {
+public class Reparacion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
-    private Long id_registry;
+    private Long id_reparacion;
 
-    private LocalDate fechaIngreso;
-    private LocalTime horaIngreso;
-    private LocalDate fechaSalida;
-    private LocalTime horaSalida;
-    private LocalDate fechaRetiro;
-    private LocalTime horaRetiro;
-    private Integer montoTotal;
+    private Integer numero_reparacion;
+    private String tipo_reparacion;
+    private LocalDate fecha_reparacion;
+    private LocalTime hora_reparacion;
+    private Integer monto_reparacion;
 
+    private Long id_registro;
     private String patente;
 }

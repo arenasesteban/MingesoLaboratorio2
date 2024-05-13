@@ -1,13 +1,15 @@
 package com.autofix.microservicevehicle.entities;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Vehicle {
+public class Vehiculo {
     @Id
     @Column(unique = true, nullable = false)
     private String license_plate;
