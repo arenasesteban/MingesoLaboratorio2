@@ -17,13 +17,19 @@ public class RegistroController {
 
     @PostMapping("/")
     public ResponseEntity<Registro> crearRegistro(@RequestBody Registro registro) {
-        Registro registro1 = registroService.crearRegistro(registro);
-        return ResponseEntity.ok(registro1);
+        Registro registro_1 = registroService.crearRegistro(registro);
+        return ResponseEntity.ok(registro_1);
     }
 
     @GetMapping("/")
     public ResponseEntity<List<Registro>> obtenerRegistros() {
         List<Registro> registros = registroService.obtenerRegistros();
         return ResponseEntity.ok(registros);
+    }
+
+    @GetMapping("/calcular-total")
+    public ResponseEntity<Registro> calcularTotal(@RequestBody Registro registro, @RequestParam int descuento_bono) {
+        Registro registro_1 = registroService.calcularTotal(registro, descuento_bono);
+        return ResponseEntity.ok(registro_1);
     }
 }
