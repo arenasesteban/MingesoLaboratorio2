@@ -32,4 +32,10 @@ public class VehiculoController {
         Vehiculo vehiculo = vehiculoService.obtenerVehiculoPorPatente(patente);
         return ResponseEntity.ok(vehiculo);
     }
+
+    @GetMapping("/patentes")
+    public ResponseEntity<List<String>> obtenerPatentes() {
+        List<String> patentes = vehiculoService.obtenerPatentes();
+        return ResponseEntity.ok(patentes);
+    }
 }
