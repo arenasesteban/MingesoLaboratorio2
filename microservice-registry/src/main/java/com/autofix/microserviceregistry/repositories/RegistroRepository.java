@@ -11,4 +11,7 @@ import java.util.List;
 public interface RegistroRepository extends JpaRepository<Registro, Long> {
     @Query("SELECT r.id_registro FROM Registro r WHERE r.id_registro < :id_registro")
     List<Long> buscarPorPatenteYMenorAId_registro(String patente, Long id_registro);
+
+    @Query("SELECT DISTINCT r.patente FROM Registro r")
+    List<String> buscarPatentesDistinct();
 }
