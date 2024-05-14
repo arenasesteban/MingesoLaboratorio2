@@ -9,6 +9,7 @@ import java.util.List;
 
 @Repository
 public interface VehiculoRepository extends JpaRepository<Vehiculo, String> {
+    @Query("SELECT v FROM Vehiculo v WHERE v.patente = :patente")
     Vehiculo encontrarPorPatente(String patente);
 
     @Query("SELECT v.patente FROM Vehiculo v")
