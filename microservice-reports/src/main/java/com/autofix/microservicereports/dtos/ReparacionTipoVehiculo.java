@@ -7,9 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ResumenReparacion {
-    private String tipo_reparacion;
-
+public class ReparacionTipoVehiculo {
     private Integer cantidad_sedan;
     private Integer monto_sedan;
 
@@ -24,7 +22,4 @@ public class ResumenReparacion {
 
     private Integer cantidad_furgoneta;
     private Integer monto_furgoneta;
-
-    private Integer cantidad_total;
-    private Integer monto_total;
 }

@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ComparativoReparaciones {
+public class ComparativoReparacion {
 
     private String tipo_reparacion;
 
