@@ -27,4 +27,12 @@ public class VehiculoService {
     public List<String> obtenerPatentes() {
         return vehiculoRepository.encontrarPatentes();
     }
+
+    public Integer obtenerCantidadVehiculosPorTipoVehiculo(List<String> patentes, String tipo_vehiculo) {
+        return vehiculoRepository.contarPorPatenteYTipoVehiculo(patentes, tipo_vehiculo);
+    }
+
+    public List<String> obtenerPatentesPorTipoVehiculo(List<String> patentes, String tipo_vehiculo) {
+        return vehiculoRepository.encontrarPatentesPorPatenteYTipoVehiculo(patentes, tipo_vehiculo);
+    }
 }

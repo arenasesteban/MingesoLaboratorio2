@@ -38,4 +38,16 @@ public class VehiculoController {
         List<String> patentes = vehiculoService.obtenerPatentes();
         return ResponseEntity.ok(patentes);
     }
+
+    @GetMapping("/cantidad-vehiculos")
+    public ResponseEntity<Integer> obtenerCantidadVehiculosPorTipoVehiculo(@RequestBody List<String> patentes, @RequestParam String tipo_vehiculo) {
+        Integer cantidad_vehiculos = vehiculoService.obtenerCantidadVehiculosPorTipoVehiculo(patentes, tipo_vehiculo);
+        return ResponseEntity.ok(cantidad_vehiculos);
+    }
+
+    @GetMapping("/patentes-tipo-vehiculo")
+    public ResponseEntity<List<String>> obtenerPatentesPorTipoVehiculo(@RequestBody List<String> patentes, @RequestParam String tipo_vehiculo) {
+        List<String> patentes_tipo_vehiculo = vehiculoService.obtenerPatentesPorTipoVehiculo(patentes, tipo_vehiculo);
+        return ResponseEntity.ok(patentes_tipo_vehiculo);
+    }
 }
