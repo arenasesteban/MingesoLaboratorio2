@@ -5,6 +5,7 @@ import com.autofix.microserviceregistry.dtos.Vehiculo;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -18,4 +19,10 @@ public interface VehiculoFeignClient {
 
     @GetMapping("/patentes")
     List<String> obtenerPatentes();
+
+    @GetMapping("/cantidad_vehiculos")
+    Integer obtenerCantidadVehiculosPorTipoVehiculo(@RequestBody List<String> patentes, @RequestParam String tipo_vehiculo);
+
+    @GetMapping("/patentes-tipo-vehiculo")
+    List<String> obtenerPatentesPorTipoVehiculo(@RequestBody List<String> patentes, @RequestParam String tipo_vehiculo);
 }

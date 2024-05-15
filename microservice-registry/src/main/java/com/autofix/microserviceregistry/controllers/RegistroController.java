@@ -1,5 +1,6 @@
 package com.autofix.microserviceregistry.controllers;
 
+import com.autofix.microserviceregistry.dtos.ReparacionTipoVehiculo;
 import com.autofix.microserviceregistry.entities.Registro;
 import com.autofix.microserviceregistry.services.RegistroService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,5 +32,11 @@ public class RegistroController {
     public ResponseEntity<Registro> calcularTotal(@RequestBody Registro registro, @RequestParam int descuento_bono) {
         Registro registro_1 = registroService.calcularTotal(registro, descuento_bono);
         return ResponseEntity.ok(registro_1);
+    }
+
+    @GetMapping("/reparacion-tipo-vehiculo")
+    public ResponseEntity<ReparacionTipoVehiculo> reporteReparacionTipoVehiculo(@RequestParam String tipo_reparacion) {
+        ReparacionTipoVehiculo reparacionTipoVehiculo = registroService.reporteReparacionTipoVehiculo(tipo_reparacion);
+        return  ResponseEntity.ok(reparacionTipoVehiculo);
     }
 }

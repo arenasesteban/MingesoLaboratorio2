@@ -2,6 +2,7 @@ package com.autofix.microserviceregistry.services;
 
 import com.autofix.microserviceregistry.clients.ReparacionFeignClient;
 import com.autofix.microserviceregistry.clients.VehiculoFeignClient;
+import com.autofix.microserviceregistry.dtos.ReparacionTipoVehiculo;
 import com.autofix.microserviceregistry.dtos.Vehiculo;
 import com.autofix.microserviceregistry.entities.Registro;
 import com.autofix.microserviceregistry.repositories.RegistroRepository;
@@ -12,6 +13,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.Period;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -191,5 +193,32 @@ public class RegistroService {
         int retraso = Period.between(fecha_salida, fecha_retiro).getDays();
 
         return retraso * .05;
+    }
+
+    public ReparacionTipoVehiculo reporteReparacionTipoVehiculo(String tipo_reparacion) {
+        List<String> patentes = reparacionFeignClient.obtenerPatentesPorTipoReparacion(tipo_reparacion);
+        ReparacionTipoVehiculo reparacionTipoVehiculo = new ReparacionTipoVehiculo();
+
+        reparacionTipoVehiculo.setCantidad_sedan(vehiculoFeignClient.obtenerCantidadVehiculosPorTipoVehiculo(patentes, "Sedan"));
+        List<String> patenes_sedan = vehiculoFeignClient.obtenerPatentesPorTipoVehiculo(patentes, "Sedan");
+        reparacionTipoVehiculo.setMonto_sedan(reparacionFeignClient.obtenerMontoPorPatenteYTipoReparacion(patenes_sedan, tipo_reparacion));
+
+        reparacionTipoVehiculo.setCantidad_hatchback(vehiculoFeignClient.obtenerCantidadVehiculosPorTipoVehiculo(patentes, "Hatchback"));
+        List<String> patentes_hatchback = vehiculoFeignClient.obtenerPatentesPorTipoVehiculo(patentes, "Hatchback");
+        reparacionTipoVehiculo.setMonto_hatchback(reparacionFeignClient.obtenerMontoPorPatenteYTipoReparacion(patentes_hatchback, tipo_reparacion));
+
+        reparacionTipoVehiculo.setCantidad_suv(vehiculoFeignClient.obtenerCantidadVehiculosPorTipoVehiculo(patentes, "SUV"));
+        List<String> patentes_suv = vehiculoFeignClient.obtenerPatentesPorTipoVehiculo(patentes, "SUV");
+        reparacionTipoVehiculo.setMonto_suv(reparacionFeignClient.obtenerMontoPorPatenteYTipoReparacion(patentes_suv, tipo_reparacion));
+
+        reparacionTipoVehiculo.setCantidad_pickup(vehiculoFeignClient.obtenerCantidadVehiculosPorTipoVehiculo(patentes, "Pickup"));
+        List<String> patentes_pickup = vehiculoFeignClient.obtenerPatentesPorTipoVehiculo(patentes, "Pickup");
+        reparacionTipoVehiculo.setMonto_pickup(reparacionFeignClient.obtenerMontoPorPatenteYTipoReparacion(patentes_pickup, tipo_reparacion));
+
+        reparacionTipoVehiculo.setCantidad_furgoneta(vehiculoFeignClient.obtenerCantidadVehiculosPorTipoVehiculo(patentes, "Furgoneta"));
+        List<String> patentes_furgoneta = vehiculoFeignClient.obtenerPatentesPorTipoVehiculo(patentes, "Furgoneta");
+        reparacionTipoVehiculo.setMonto_furgoneta(reparacionFeignClient.obtenerMontoPorPatenteYTipoReparacion(patentes_furgoneta, tipo_reparacion));
+
+        return reparacionTipoVehiculo;
     }
 }
