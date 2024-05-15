@@ -22,8 +22,20 @@ public class ReparacionController {
     }
 
     @GetMapping("/cantidad-reparaciones")
-    public ResponseEntity<Integer> obtenerCantidadReparaciones(@RequestParam List<Long> id_registros) {
+    public ResponseEntity<Integer> obtenerCantidadReparaciones(@RequestBody List<Long> id_registros) {
         Integer cantidad_reparaciones = reparacionService.obtenerCantidadReparaciones(id_registros);
         return ResponseEntity.ok(cantidad_reparaciones);
+    }
+
+    @GetMapping("/patentes")
+    public ResponseEntity<List<String>> obtenerPatentesPorTipoReparacion(@RequestParam String tipo_reparacion) {
+        List<String> patentes = reparacionService.obtenerIdRegistroPorTipoReparacion(tipo_reparacion);
+        return ResponseEntity.ok(patentes);
+    }
+
+    @GetMapping("/monto-tipo-reparacion")
+    public ResponseEntity<Integer> obtenerMontoPorPatenteYTipoReparacion(@RequestBody List<String> patentes, @RequestParam String tipo_reparacion) {
+        Integer monto_tipo_reparacion = reparacionService.obtenerMontoPorPatenteYTipoReparacion(patentes, tipo_reparacion);
+        return ResponseEntity.ok(monto_tipo_reparacion);
     }
 }

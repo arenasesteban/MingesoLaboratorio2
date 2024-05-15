@@ -1,5 +1,12 @@
 package com.autofix.microservicereports.dtos;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class ResumenReparaciones {
     private String tipo_reparacion;
 

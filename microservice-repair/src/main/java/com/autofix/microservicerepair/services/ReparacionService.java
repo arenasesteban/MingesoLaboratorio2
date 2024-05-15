@@ -3,6 +3,7 @@ package com.autofix.microservicerepair.services;
 import com.autofix.microservicerepair.entities.Reparacion;
 import com.autofix.microservicerepair.repositories.ReparacionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,5 +25,13 @@ public class ReparacionService {
         }
 
         return cantidad_reparaciones;
+    }
+
+    public List<String> obtenerIdRegistroPorTipoReparacion(String tipo_reparacion) {
+        return reparacionRepository.encontrarPatentesByTipoReparacion(tipo_reparacion);
+    }
+
+    public Integer obtenerMontoPorPatenteYTipoReparacion(List<String> patentes, String tipo_reparacion) {
+        return reparacionRepository.contarPorPatenteYTipoReparacion(patentes, tipo_reparacion);
     }
 }
