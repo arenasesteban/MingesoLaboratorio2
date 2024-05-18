@@ -14,8 +14,8 @@ public class ReparacionService {
     @Autowired
     ReparacionRepository reparacionRepository;
 
-    public Reparacion crearReparacion(Reparacion reparacion) {
-        return reparacionRepository.save(reparacion);
+    public List<Reparacion> crearReparacion(List<Reparacion> reparaciones) {
+        return reparacionRepository.saveAll(reparaciones);
     }
 
     public Integer obtenerCantidadReparaciones(List<Long> id_registros) {
