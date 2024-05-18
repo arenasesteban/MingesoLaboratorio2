@@ -2,13 +2,10 @@ package com.autofix.microservicereports.services;
 
 import com.autofix.microservicereports.clients.RegistroFeignClient;
 import com.autofix.microservicereports.dtos.ComparativoReparacion;
-import com.autofix.microservicereports.dtos.ReparacionTipoVehiculo;
 import com.autofix.microservicereports.dtos.ResumenReparacion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.Month;
-import java.time.Year;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,37 +18,21 @@ public class ReporteService {
         List<ResumenReparacion> resumenReparaciones = new ArrayList<>();
 
         for(String tipo_reparacion : tipo_reparaciones) {
-            ResumenReparacion resumenReparacion = new ResumenReparacion();
+            ResumenReparacion resumenReparacion = registroFeignClient.reporteReparacionTipoVehiculo(tipo_reparacion);
+
             resumenReparacion.setTipo_reparacion(tipo_reparacion);
 
-            ReparacionTipoVehiculo reparacionTipoVehiculo = registroFeignClient.reporteReparacionTipoVehiculo(tipo_reparacion);
+            resumenReparacion.setCantidad_total(resumenReparacion.getCantidad_sedan() +
+                    resumenReparacion.getCantidad_hatchback() +
+                    resumenReparacion.getCantidad_suv() +
+                    resumenReparacion.getCantidad_pickup() +
+                    resumenReparacion.getCantidad_furgoneta());
 
-            resumenReparacion.setCantidad_sedan(reparacionTipoVehiculo.getCantidad_sedan());
-            resumenReparacion.setMonto_sedan(reparacionTipoVehiculo.getMonto_sedan());
-
-            resumenReparacion.setCantidad_hatchback(reparacionTipoVehiculo.getCantidad_hatchback());
-            resumenReparacion.setMonto_sedan(reparacionTipoVehiculo.getMonto_sedan());
-
-            resumenReparacion.setCantidad_suv(reparacionTipoVehiculo.getCantidad_suv());
-            resumenReparacion.setMonto_sedan(reparacionTipoVehiculo.getMonto_sedan());
-
-            resumenReparacion.setCantidad_pickup(reparacionTipoVehiculo.getCantidad_pickup());
-            resumenReparacion.setMonto_sedan(reparacionTipoVehiculo.getMonto_sedan());
-
-            resumenReparacion.setCantidad_furgoneta(reparacionTipoVehiculo.getCantidad_furgoneta());
-            resumenReparacion.setMonto_sedan(reparacionTipoVehiculo.getMonto_sedan());
-
-            resumenReparacion.setCantidad_total(reparacionTipoVehiculo.getCantidad_sedan() +
-                    reparacionTipoVehiculo.getCantidad_hatchback() +
-                    reparacionTipoVehiculo.getCantidad_suv() +
-                    reparacionTipoVehiculo.getCantidad_pickup() +
-                    reparacionTipoVehiculo.getCantidad_furgoneta());
-
-            resumenReparacion.setMonto_total(reparacionTipoVehiculo.getMonto_sedan() +
-                    reparacionTipoVehiculo.getMonto_hatchback() +
-                    reparacionTipoVehiculo.getMonto_suv() +
-                    reparacionTipoVehiculo.getMonto_pickup() +
-                    reparacionTipoVehiculo.getMonto_furgoneta());
+            resumenReparacion.setMonto_total(resumenReparacion.getMonto_sedan() +
+                    resumenReparacion.getMonto_hatchback() +
+                    resumenReparacion.getMonto_suv() +
+                    resumenReparacion.getMonto_pickup() +
+                    resumenReparacion.getMonto_furgoneta());
 
             resumenReparaciones.add(resumenReparacion);
         }

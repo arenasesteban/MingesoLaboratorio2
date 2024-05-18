@@ -18,7 +18,7 @@ public class ReportesController {
     ReporteService reporteService;
 
     @GetMapping("/resumen-reparaciones")
-    public ResponseEntity<List<ResumenReparacion>> reporteResumenReparaciones(@RequestBody List<String> tipo_reparaciones, @RequestBody YearMonth fecha) {
+    public ResponseEntity<List<ResumenReparacion>> reporteResumenReparaciones(@RequestParam List<String> tipo_reparaciones) {
         List<ResumenReparacion> reporte = reporteService.reporteResumenReparaciones(tipo_reparaciones);
         return ResponseEntity.ok(reporte);
     }
