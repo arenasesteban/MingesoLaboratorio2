@@ -17,9 +17,6 @@ public interface VehiculoFeignClient {
     @GetMapping("/patente")
     Vehiculo obtenerVehiculoPorPatente(@RequestParam String patente);
 
-    @GetMapping("/patentes")
-    List<String> obtenerPatentes();
-
     @GetMapping("/cantidad_vehiculos")
     Integer obtenerCantidadVehiculosPorTipoVehiculo(@RequestBody List<String> patentes, @RequestParam String tipo_vehiculo);
 

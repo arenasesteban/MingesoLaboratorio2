@@ -31,19 +31,7 @@ public class RegistroService {
     }
 
     public List<Registro> obtenerRegistros() {
-        List<String> patentes_vehiculos = vehiculoFeignClient.obtenerPatentes();
-        List<String> patentes_registros = registroRepository.buscarPatentesDistinct();
-        List<Registro> registros = registroRepository.findAll();
-
-        for(String patente : patentes_vehiculos) {
-            if(!patentes_registros.contains(patente)) {
-                Registro registro = new Registro();
-                registro.setPatente(patente);
-                registros.add(registro);
-            }
-        }
-
-        return registros;
+        return registroRepository.findAll();
     }
 
     public Registro calcularTotal(Registro registro, int descuento_bono) {
