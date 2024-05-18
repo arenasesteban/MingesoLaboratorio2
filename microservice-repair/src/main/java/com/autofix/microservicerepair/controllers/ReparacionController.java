@@ -1,5 +1,6 @@
 package com.autofix.microservicerepair.controllers;
 
+import com.autofix.microservicerepair.dtos.CantidadMontoInterfaz;
 import com.autofix.microservicerepair.entities.Reparacion;
 import com.autofix.microservicerepair.services.ReparacionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,5 +38,11 @@ public class ReparacionController {
     public ResponseEntity<Integer> obtenerMontoPorPatenteYTipoReparacion(@RequestBody List<String> patentes, @RequestParam String tipo_reparacion) {
         Integer monto_tipo_reparacion = reparacionService.obtenerMontoPorPatenteYTipoReparacion(patentes, tipo_reparacion);
         return ResponseEntity.ok(monto_tipo_reparacion);
+    }
+
+    @GetMapping("/cantidad-monto")
+    public ResponseEntity<CantidadMontoInterfaz> calcularCantidadYMontoReparacionPorMes(@RequestParam String tipo_reparacion, @RequestParam Integer mes) {
+        CantidadMontoInterfaz cantidad_monto = reparacionService.calcularCantidadYMontoReparacionPorMes(tipo_reparacion, mes);
+        return ResponseEntity.ok(cantidad_monto);
     }
 }

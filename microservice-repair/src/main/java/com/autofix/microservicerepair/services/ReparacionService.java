@@ -1,11 +1,12 @@
 package com.autofix.microservicerepair.services;
 
+import com.autofix.microservicerepair.dtos.CantidadMontoInterfaz;
 import com.autofix.microservicerepair.entities.Reparacion;
 import com.autofix.microservicerepair.repositories.ReparacionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
+import java.time.Month;
 import java.util.List;
 
 @Service
@@ -33,5 +34,25 @@ public class ReparacionService {
 
     public Integer obtenerMontoPorPatenteYTipoReparacion(List<String> patentes, String tipo_reparacion) {
         return reparacionRepository.contarPorPatenteYTipoReparacion(patentes, tipo_reparacion);
+    }
+
+    public CantidadMontoInterfaz calcularCantidadYMontoReparacionPorMes(String tipo_reparacion, Integer mes) {
+        CantidadMontoInterfaz cantidad_monto = reparacionRepository.contarPorTipoReparacionYMes(tipo_reparacion, mes);
+
+        if (cantidad_monto.getCantidad() == 0) {
+            return new CantidadMontoInterfaz() {
+                @Override
+                public Integer getCantidad() {
+                    return 0;
+                }
+
+                @Override
+                public Integer getMonto() {
+                    return 0;
+                }
+            };
+        }
+
+        return cantidad_monto;
     }
 }
