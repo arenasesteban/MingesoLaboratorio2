@@ -212,18 +212,21 @@ public class RegistroService {
     public ReparacionMeses reporteReparacionMeses(String tipo_reparacion, Integer mes) {
         ReparacionMeses reparacionMeses = new ReparacionMeses();
 
-        CantidadMonto cantidad_monto_1 = reparacionFeignClient.calcularCantidadYMontoReparacionPorMes(tipo_reparacion, mes - 1);
-        reparacionMeses.setPrimer_mes(reparacionMeses.obtenerMes(mes - 1));
+        int primer_mes = reparacionMeses.calcularMesAnterior(mes, 1);
+        CantidadMonto cantidad_monto_1 = reparacionFeignClient.calcularCantidadYMontoReparacionPorMes(tipo_reparacion, primer_mes);
+        reparacionMeses.setPrimer_mes(reparacionMeses.obtenerMes(primer_mes));
         reparacionMeses.setCantidad_primer_mes(cantidad_monto_1.getCantidad());
         reparacionMeses.setMonto_primer_mes(cantidad_monto_1.getMonto());
 
-        CantidadMonto cantidad_monto_2 = reparacionFeignClient.calcularCantidadYMontoReparacionPorMes(tipo_reparacion, mes - 2);
-        reparacionMeses.setSegundo_mes(reparacionMeses.obtenerMes(mes - 2));
+        int segundo_mes = reparacionMeses.calcularMesAnterior(mes, 2);
+        CantidadMonto cantidad_monto_2 = reparacionFeignClient.calcularCantidadYMontoReparacionPorMes(tipo_reparacion, segundo_mes);
+        reparacionMeses.setSegundo_mes(reparacionMeses.obtenerMes(segundo_mes));
         reparacionMeses.setCantidad_segundo_mes(cantidad_monto_2.getCantidad());
         reparacionMeses.setMonto_segundo_mes(cantidad_monto_2.getMonto());
 
-        CantidadMonto cantidad_monto_3 = reparacionFeignClient.calcularCantidadYMontoReparacionPorMes(tipo_reparacion, mes - 3);
-        reparacionMeses.setTercer_mes(reparacionMeses.obtenerMes(mes - 3));
+        int tercer_mes = reparacionMeses.calcularMesAnterior(mes, 3);
+        CantidadMonto cantidad_monto_3 = reparacionFeignClient.calcularCantidadYMontoReparacionPorMes(tipo_reparacion, tercer_mes);
+        reparacionMeses.setTercer_mes(reparacionMeses.obtenerMes(tercer_mes));
         reparacionMeses.setCantidad_tercer_mes(cantidad_monto_3.getCantidad());
         reparacionMeses.setMonto_tercer_mes(cantidad_monto_3.getMonto());
 

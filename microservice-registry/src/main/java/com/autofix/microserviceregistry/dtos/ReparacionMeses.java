@@ -40,4 +40,14 @@ public class ReparacionMeses {
             default -> "";
         };
     }
+
+    public Integer calcularMesAnterior(Integer numero_mes, Integer meses_atras) {
+        int mes_anterior = numero_mes - meses_atras;
+
+        if(mes_anterior <= 0) {
+            return mes_anterior + 12;
+        }
+
+        return mes_anterior;
+    }
 }
