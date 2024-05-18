@@ -1,5 +1,6 @@
 package com.autofix.microserviceregistry.controllers;
 
+import com.autofix.microserviceregistry.dtos.ReparacionMeses;
 import com.autofix.microserviceregistry.dtos.ReparacionTipoVehiculo;
 import com.autofix.microserviceregistry.entities.Registro;
 import com.autofix.microserviceregistry.services.RegistroService;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Month;
 import java.util.List;
 
 @RestController
@@ -37,6 +39,12 @@ public class RegistroController {
     @GetMapping("/reparacion-tipo-vehiculo")
     public ResponseEntity<ReparacionTipoVehiculo> reporteReparacionTipoVehiculo(@RequestParam String tipo_reparacion) {
         ReparacionTipoVehiculo reparacionTipoVehiculo = registroService.reporteReparacionTipoVehiculo(tipo_reparacion);
-        return  ResponseEntity.ok(reparacionTipoVehiculo);
+        return ResponseEntity.ok(reparacionTipoVehiculo);
+    }
+
+    @GetMapping("/reparacion-meses")
+    public ResponseEntity<ReparacionMeses> reporteReparacionMeses(@RequestParam String tipo_reparacion, @RequestParam Integer mes) {
+        ReparacionMeses reparacionMeses = registroService.reporteReparacionMeses(tipo_reparacion, mes);
+        return ResponseEntity.ok(reparacionMeses);
     }
 }

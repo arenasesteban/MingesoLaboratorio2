@@ -2,6 +2,8 @@ package com.autofix.microserviceregistry.services;
 
 import com.autofix.microserviceregistry.clients.ReparacionFeignClient;
 import com.autofix.microserviceregistry.clients.VehiculoFeignClient;
+import com.autofix.microserviceregistry.dtos.CantidadMonto;
+import com.autofix.microserviceregistry.dtos.ReparacionMeses;
 import com.autofix.microserviceregistry.dtos.ReparacionTipoVehiculo;
 import com.autofix.microserviceregistry.dtos.Vehiculo;
 import com.autofix.microserviceregistry.entities.Registro;
@@ -9,10 +11,7 @@ import com.autofix.microserviceregistry.repositories.RegistroRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.Period;
+import java.time.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -220,5 +219,26 @@ public class RegistroService {
         reparacionTipoVehiculo.setMonto_furgoneta(reparacionFeignClient.obtenerMontoPorPatenteYTipoReparacion(patentes_furgoneta, tipo_reparacion));
 
         return reparacionTipoVehiculo;
+    }
+
+    public ReparacionMeses reporteReparacionMeses(String tipo_reparacion, Integer mes) {
+        ReparacionMeses reparacionMeses = new ReparacionMeses();
+
+        CantidadMonto cantidad_monto_1 = reparacionFeignClient.calcularCantidadYMontoReparacionPorMes(tipo_reparacion, mes - 1);
+        reparacionMeses.setPrimer_mes(reparacionMeses.obtenerMes(mes - 1));
+        reparacionMeses.setCantidad_primer_mes(cantidad_monto_1.getCantidad());
+        reparacionMeses.setMonto_primer_mes(cantidad_monto_1.getMonto());
+
+        CantidadMonto cantidad_monto_2 = reparacionFeignClient.calcularCantidadYMontoReparacionPorMes(tipo_reparacion, mes - 2);
+        reparacionMeses.setSegundo_mes(reparacionMeses.obtenerMes(mes - 2));
+        reparacionMeses.setCantidad_segundo_mes(cantidad_monto_2.getCantidad());
+        reparacionMeses.setMonto_segundo_mes(cantidad_monto_2.getMonto());
+
+        CantidadMonto cantidad_monto_3 = reparacionFeignClient.calcularCantidadYMontoReparacionPorMes(tipo_reparacion, mes - 3);
+        reparacionMeses.setTercer_mes(reparacionMeses.obtenerMes(mes - 3));
+        reparacionMeses.setCantidad_tercer_mes(cantidad_monto_3.getCantidad());
+        reparacionMeses.setMonto_tercer_mes(cantidad_monto_3.getMonto());
+
+        return reparacionMeses;
     }
 }
