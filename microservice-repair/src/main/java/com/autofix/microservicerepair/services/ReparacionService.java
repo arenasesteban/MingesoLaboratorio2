@@ -33,7 +33,13 @@ public class ReparacionService {
     }
 
     public Integer obtenerMontoPorPatenteYTipoReparacion(List<String> patentes, String tipo_reparacion) {
-        return reparacionRepository.contarPorPatenteYTipoReparacion(patentes, tipo_reparacion);
+        Integer monto = reparacionRepository.sumarPorPatenteYTipoReparacion(patentes, tipo_reparacion);
+
+        if(monto == null) {
+            monto = 0;
+        }
+
+        return monto;
     }
 
     public CantidadMontoInterfaz calcularCantidadYMontoReparacionPorMes(String tipo_reparacion, Integer mes) {

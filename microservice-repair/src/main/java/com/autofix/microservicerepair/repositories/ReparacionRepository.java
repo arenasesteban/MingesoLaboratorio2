@@ -17,8 +17,8 @@ public interface ReparacionRepository extends JpaRepository<Reparacion, Long> {
     @Query("SELECT DISTINCT r.patente FROM Reparacion r WHERE r.tipo_reparacion = :tipo_reparacion")
     List<String> encontrarPatentesByTipoReparacion(String tipo_reparacion);
 
-    @Query("SELECT COUNT(*) FROM Reparacion r WHERE r.patente IN :patentes AND r.tipo_reparacion = :tipo_reparacion")
-    Integer contarPorPatenteYTipoReparacion(List<String> patentes, String tipo_reparacion);
+    @Query("SELECT SUM(r.monto_reparacion) FROM Reparacion r WHERE r.patente IN :patentes AND r.tipo_reparacion = :tipo_reparacion")
+    Integer sumarPorPatenteYTipoReparacion(List<String> patentes, String tipo_reparacion);
 
     @Query("SELECT COUNT(r) AS cantidad, SUM(r.monto_reparacion) AS monto FROM Reparacion r WHERE r.tipo_reparacion = :tipo_reparacion AND MONTH(r.fecha_reparacion) = :mes")
     CantidadMontoInterfaz contarPorTipoReparacionYMes(String tipo_reparacion, Integer mes);
