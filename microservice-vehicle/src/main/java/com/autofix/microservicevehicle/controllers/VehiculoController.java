@@ -33,12 +33,6 @@ public class VehiculoController {
         return ResponseEntity.ok(vehiculo);
     }
 
-    @GetMapping("/patentes")
-    public ResponseEntity<List<String>> obtenerPatentes() {
-        List<String> patentes = vehiculoService.obtenerPatentes();
-        return ResponseEntity.ok(patentes);
-    }
-
     @GetMapping("/cantidad-vehiculos")
     public ResponseEntity<Integer> obtenerCantidadVehiculosPorTipoVehiculo(@RequestBody List<String> patentes, @RequestParam String tipo_vehiculo) {
         Integer cantidad_vehiculos = vehiculoService.obtenerCantidadVehiculosPorTipoVehiculo(patentes, tipo_vehiculo);
