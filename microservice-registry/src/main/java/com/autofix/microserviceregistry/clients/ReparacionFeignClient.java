@@ -18,13 +18,13 @@ import java.util.List;
         configuration = {FeignClientConfig.class})
 public interface ReparacionFeignClient {
     @GetMapping("/cantidad-reparaciones")
-    Integer obtenerCantidadReparaciones(@RequestBody List<Long> id_registros);
+    Integer obtenerCantidadReparaciones(@RequestParam List<Long> id_registros);
 
     @GetMapping("/patentes")
     List<String> obtenerPatentesPorTipoReparacion(@RequestParam String tipo_reparacion);
 
     @GetMapping("/monto-tipo-reparacion")
-    Integer obtenerMontoPorPatenteYTipoReparacion(@RequestBody List<String> patentes, @RequestParam String tipo_reparacion);
+    Integer obtenerMontoPorPatenteYTipoReparacion(@RequestParam List<String> patentes, @RequestParam String tipo_reparacion);
 
     @GetMapping("/cantidad-monto")
     CantidadMonto calcularCantidadYMontoReparacionPorMes(@RequestParam String tipo_reparacion, @RequestParam Integer mes) ;
