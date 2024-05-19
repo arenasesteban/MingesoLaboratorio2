@@ -14,7 +14,7 @@ import java.time.Month;
         configuration = {FeignClientConfig.class})
 public interface RegistroFeignClient {
     @GetMapping("/reparacion-tipo-vehiculo")
-    ResumenReparacion reporteReparacionTipoVehiculo(@RequestParam String tipo_reparacion);
+    ResumenReparacion reporteReparacionTipoVehiculo(@RequestParam String tipo_reparacion, @RequestParam Integer mes, @RequestParam Integer ano);
 
     @GetMapping("/reparacion-meses")
     ComparativoReparacion reporteReparacionMeses(@RequestParam String tipo_reparacion, @RequestParam Integer mes);

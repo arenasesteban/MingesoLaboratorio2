@@ -14,11 +14,11 @@ public class ReporteService {
     @Autowired
     RegistroFeignClient registroFeignClient;
 
-    public List<ResumenReparacion> reporteResumenReparaciones(List<String> tipo_reparaciones) {
+    public List<ResumenReparacion> reporteResumenReparaciones(List<String> tipo_reparaciones, Integer mes, Integer ano) {
         List<ResumenReparacion> resumenReparaciones = new ArrayList<>();
 
         for(String tipo_reparacion : tipo_reparaciones) {
-            ResumenReparacion resumenReparacion = registroFeignClient.reporteReparacionTipoVehiculo(tipo_reparacion);
+            ResumenReparacion resumenReparacion = registroFeignClient.reporteReparacionTipoVehiculo(tipo_reparacion, mes , ano);
 
             resumenReparacion.setTipo_reparacion(tipo_reparacion);
 

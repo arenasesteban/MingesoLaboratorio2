@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.YearMonth;
 import java.util.List;
 
 @RestController
@@ -18,8 +17,8 @@ public class ReportesController {
     ReporteService reporteService;
 
     @GetMapping("/resumen-reparaciones")
-    public ResponseEntity<List<ResumenReparacion>> reporteResumenReparaciones(@RequestParam List<String> tipo_reparaciones) {
-        List<ResumenReparacion> reporte = reporteService.reporteResumenReparaciones(tipo_reparaciones);
+    public ResponseEntity<List<ResumenReparacion>> reporteResumenReparaciones(@RequestParam List<String> tipo_reparaciones, @RequestParam Integer mes, @RequestParam Integer ano) {
+        List<ResumenReparacion> reporte = reporteService.reporteResumenReparaciones(tipo_reparaciones, mes, ano);
         return ResponseEntity.ok(reporte);
     }
 
