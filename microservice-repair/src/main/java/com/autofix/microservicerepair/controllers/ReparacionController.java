@@ -29,14 +29,14 @@ public class ReparacionController {
     }
 
     @GetMapping("/patentes")
-    public ResponseEntity<List<String>> obtenerPatentesPorTipoReparacion(@RequestParam String tipo_reparacion) {
-        List<String> patentes = reparacionService.obtenerIdRegistroPorTipoReparacion(tipo_reparacion);
+    public ResponseEntity<List<String>> obtenerPatentesPorTipoReparacion(@RequestParam String tipo_reparacion, @RequestParam Integer mes, @RequestParam Integer ano) {
+        List<String> patentes = reparacionService.obtenerIdRegistroPorTipoReparacion(tipo_reparacion, mes, ano);
         return ResponseEntity.ok(patentes);
     }
 
     @GetMapping("/monto-tipo-reparacion")
-    public ResponseEntity<Integer> obtenerMontoPorPatenteYTipoReparacion(@RequestParam List<String> patentes, @RequestParam String tipo_reparacion) {
-        Integer monto_tipo_reparacion = reparacionService.obtenerMontoPorPatenteYTipoReparacion(patentes, tipo_reparacion);
+    public ResponseEntity<Integer> obtenerMontoPorPatenteYTipoReparacion(@RequestParam List<String> patentes, @RequestParam String tipo_reparacion, @RequestParam Integer mes, @RequestParam Integer ano) {
+        Integer monto_tipo_reparacion = reparacionService.obtenerMontoPorPatenteYTipoReparacion(patentes, tipo_reparacion, mes, ano);
         return ResponseEntity.ok(monto_tipo_reparacion);
     }
 

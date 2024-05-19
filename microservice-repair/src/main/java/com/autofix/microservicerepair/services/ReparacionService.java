@@ -28,12 +28,12 @@ public class ReparacionService {
         return cantidad_reparaciones;
     }
 
-    public List<String> obtenerIdRegistroPorTipoReparacion(String tipo_reparacion) {
-        return reparacionRepository.encontrarPatentesByTipoReparacion(tipo_reparacion);
+    public List<String> obtenerIdRegistroPorTipoReparacion(String tipo_reparacion, Integer mes, Integer ano) {
+        return reparacionRepository.encontrarPatentesByTipoReparacion(tipo_reparacion, mes, ano);
     }
 
-    public Integer obtenerMontoPorPatenteYTipoReparacion(List<String> patentes, String tipo_reparacion) {
-        Integer monto = reparacionRepository.sumarPorPatenteYTipoReparacion(patentes, tipo_reparacion);
+    public Integer obtenerMontoPorPatenteYTipoReparacion(List<String> patentes, String tipo_reparacion, Integer mes, Integer ano) {
+        Integer monto = reparacionRepository.sumarPorPatenteYTipoReparacion(patentes, tipo_reparacion, mes, ano);
 
         if(monto == null) {
             monto = 0;
