@@ -7,6 +7,10 @@
         <option value="$PROJECT_DIR$/microservice-repair/pom.xml" />
         <option value="$PROJECT_DIR$/microservice-vehicle/pom.xml" />
         <option value="$PROJECT_DIR$/microservice-registry/pom.xml" />
+        <option value="$PROJECT_DIR$/microservice-reports/pom.xml" />
+        <option value="$PROJECT_DIR$/gateway-server/pom.xml" />
+        <option value="$PROJECT_DIR$/eureka-server/pom.xml" />
+        <option value="$PROJECT_DIR$/config-server/pom.xml" />
       </list>
     </option>
   </component>
