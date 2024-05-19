@@ -21,10 +21,10 @@ public interface ReparacionFeignClient {
     Integer obtenerCantidadReparaciones(@RequestParam List<Long> id_registros);
 
     @GetMapping("/patentes")
-    List<String> obtenerPatentesPorTipoReparacion(@RequestParam String tipo_reparacion);
+    List<String> obtenerPatentesPorTipoReparacion(@RequestParam String tipo_reparacion, @RequestParam Integer mes, @RequestParam Integer ano);
 
     @GetMapping("/monto-tipo-reparacion")
-    Integer obtenerMontoPorPatenteYTipoReparacion(@RequestParam List<String> patentes, @RequestParam String tipo_reparacion);
+    Integer obtenerMontoPorPatenteYTipoReparacion(@RequestParam List<String> patentes, @RequestParam String tipo_reparacion, @RequestParam Integer mes, @RequestParam Integer ano);
 
     @GetMapping("/cantidad-monto")
     CantidadMonto calcularCantidadYMontoReparacionPorMes(@RequestParam String tipo_reparacion, @RequestParam Integer mes) ;
