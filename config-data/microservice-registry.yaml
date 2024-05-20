@@ -5,6 +5,9 @@ spring:
     url: jdbc:postgresql://localhost:5432/registry-db
     username: postgres
     password: 12345678
+  jpa:
+    hibernate:
+      ddl-auto: update
 eureka:
   instance:
     hostname: localhost
