@@ -24,7 +24,7 @@ spring:
         - id: microservice-vehicle
           uri: lb://microservice-vehicle:8081
           predicates:
-            - Path=/reporte/**
+            - Path=/vehiculo/**
         - id: microservice-registry
           uri: lb://microservice-registry:8082
           predicates:
