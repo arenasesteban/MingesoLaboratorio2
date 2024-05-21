@@ -14,7 +14,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/registro")
-@CrossOrigin("*")
 public class RegistroController {
     @Autowired
     RegistroService registroService;
