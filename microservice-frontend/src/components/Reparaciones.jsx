@@ -26,32 +26,33 @@ export default function Reparaciones() {
     }
 
     return (
-        <div className="flex h-4/5 m-9 p-12 bg-gray-100 shadow-md border border-gray-300 rounded-md">   
+        <div className="flex h-4/5 mx-10 my-6">   
             <div className="flex flex-col w-full">
-                <div className="flex justify-between items-center border-b border-gray-300 pb-4">
-                    <div className="text-3xl font-bold text-gray-700 uppercase">
-                        <h1>Historial de reparaciones</h1>
+                <div className="flex justify-between items-end">
+                    <div className="space-y-1">
+                        <h1 className="text-2xl text-gray-900">Reparaciones</h1>
+                        <h2 className="text-gray-500 uppercase">Historial de reparaciones</h2>
                     </div>
                     <BotonNuevo onClick={manejarOnClickNavigate} tipoElemento={"Nueva reparación"}/>
                 </div>
-                <div className="mt-6 overflow-auto shadow">
+                <div className="mt-6 overflow-auto shadow-lg shadow-gray-200 rounded-xl">
                     <div>
-                        <table className="bg-white text-left w-full">
-                            <thead className="text-gray-700 uppercase border-b">
-                                <tr>
-                                    <th scope="col" className="px-6 py-4">
+                        <table className="text-left w-full">
+                            <thead className="border-b bg-white">
+                                <tr className="text-gray-700">
+                                    <th scope="col" className="font-semibold px-6 py-4">
                                         Patente
                                     </th>
-                                    <th scope="col" className="px-6 py-4">
+                                    <th scope="col" className="font-semibold px-6 py-4">
                                         Fecha ingreso
                                     </th>
-                                    <th scope="col" className="px-6 py-4">
+                                    <th scope="col" className="font-semibold px-6 py-4">
                                         Fecha salida
                                     </th>
-                                    <th scope="col" class="px-6 py-4">
+                                    <th scope="col" class="font-semibold px-6 py-4">
                                         Fecha retiro
                                     </th>
-                                    <th scope="col" class="px-6 py-4">
+                                    <th scope="col" class="font-semibold px-6 py-4">
                                         Monto total
                                     </th>
 
@@ -60,7 +61,7 @@ export default function Reparaciones() {
                             <tbody>
                                 {
                                     registros.map((registro, index) => (
-                                        <tr key={index} class="bg-white border-b hover:bg-gray-50">
+                                        <tr key={index} class="bg-white font-light border-b hover:bg-gray-50">
                                             <td scope="row" class="px-6 py-4 font-medium text-gray-900">
                                                 {registro.patente}
                                             </td>

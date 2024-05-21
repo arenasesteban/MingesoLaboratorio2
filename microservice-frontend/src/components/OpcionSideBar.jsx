@@ -5,8 +5,8 @@ export default function OpcionSideBar({ nombreOpcion, iconoOpcion, iconoDropdown
         <div className="mr-2 my-1">
             <button 
                 onClick={onClick} 
-                className={`flex gap-3 items-center w-full pl-8 py-3 font-semibold rounded-r-3xl 
-                            ${activo ? 'text-cyan-600 bg-white' : 'text-white hover:bg-cyan-700'} `}>
+                className={`flex items-center gap-3 w-full pl-8 py-3 rounded-r-3xl 
+                            ${activo ? 'text-emerald-700 bg-gray-50' : 'text-gray-50 hover:bg-emerald-800'} `}>
                 {iconoOpcion && <span>{iconoOpcion}</span>}
                 {nombreOpcion}
                 {iconoDropdown && <span>{iconoDropdown}</span>}
