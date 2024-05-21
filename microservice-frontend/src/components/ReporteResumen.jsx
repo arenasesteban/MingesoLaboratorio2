@@ -1,21 +1,26 @@
 import { React, useState, useEffect } from "react";
-import reparacionService from "../services/reparacion.service";
+import reporteService from "../services/reporte.service";
+import reparaciones from "../data/reparacionesData";
 
 export default function ReporteResumen() {
-    const [reparacionesTipoVehiculo, setReparacionesTipoVehiculo] = useState([]);
+    const [reporteResumen, setReporteResumen] = useState([]);
 
-    async function buscarReparacionesTipoVehiculo() {
+    async function buscarReporteResumen() {
         try {
-            const response = await reparacionService.obtenerRepracionTipoVehiculo();
-            setReparacionesTipoVehiculo(response.data);
+            const tipo_reparaciones = reparaciones.map(reparacion => reparacion.tipo_reparacion);
+            const mes = new Date().getMonth() + 1; // Obtener el mes actual
+            const ano = new Date().getFullYear(); // Obtener el año actual
+
+            const response = await reporteService.reporteResumen(tipo_reparaciones, mes, ano);
+            setReporteResumen(response.data);
             console.log(response.data);
         } catch (error) {
-            console.error('Error al obtener los registros:', error);
+            console.error('Error al obtener el reporte:', error);
         }
     }
 
     useEffect(() => {
-        buscarReparacionesTipoVehiculo();
+        buscarReporteResumen();
     }, [])
     
     return (
@@ -31,8 +36,8 @@ export default function ReporteResumen() {
                         <table className="text-left w-full">
                             <thead className="border-b bg-white">
                                 <tr className="text-gray-700">
-                                    <th scope="col" className="font-semibold px-6 py-4">
-                                        Tipo reparación
+                                    <th scope="col" className="font-semibold px-6 pr-4">
+                                        Reparación
                                     </th>
                                     <th scope="col" className="font-semibold px-6 py-4">
                                         Sedan
@@ -50,34 +55,40 @@ export default function ReporteResumen() {
                                         Furgoneta
                                     </th>
                                     <th scope="col" className="font-semibold px-6 py-4">
-                                        Monto total
+                                        Total
                                     </th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {
-                                    reparacionesTipoVehiculo.map((reparacionTipoVehiculo, index) => (
+                                    reporteResumen.map((reporteResumen, index) => (
                                         <tr key={index} class="bg-white font-light border-b hover:bg-gray-50">
-                                            <td scope="row" class="px-6 py-4 font-medium text-gray-900">
-                                                {reparacionTipoVehiculo.tipoReparacion}
+                                            <td scope="row" class="px-6 pr-4 font-medium text-gray-900">
+                                                {reporteResumen.tipo_reparacion}
                                             </td>
                                             <td class="px-6 py-3">
-                                                {reparacionTipoVehiculo.cantidadSedan}
+                                                {reporteResumen.cantidad_sedan}<br/>
+                                                $ {reporteResumen.monto_sedan}
                                             </td>
                                             <td class="px-6 py-3">
-                                                {reparacionTipoVehiculo.cantidadHatchback}
+                                                {reporteResumen.cantidad_hatchback}<br/>
+                                                $ {reporteResumen.monto_hatchback}
                                             </td>
                                             <td class="px-6 py-3">
-                                                {reparacionTipoVehiculo.cantidadSUV}
+                                                {reporteResumen.cantidad_suv}<br/>
+                                                $ {reporteResumen.monto_suv}
                                             </td>
                                             <td class="px-6 py-3">
-                                                {reparacionTipoVehiculo.cantidadPickup}
+                                                {reporteResumen.cantidad_pickup}<br/>
+                                                $ {reporteResumen.monto_pickup}
                                             </td>
                                             <td class="px-6 py-3">
-                                                {reparacionTipoVehiculo.cantidadFurgoneta}
+                                                {reporteResumen.cantidad_furgoneta}<br/>
+                                                $ {reporteResumen.monto_furgoneta}
                                             </td>
                                             <td class="px-6 py-3">
-                                                $ {reparacionTipoVehiculo.montoTotal}
+                                                {reporteResumen.cantidad_total}<br/>
+                                                $ {reporteResumen.monto_total}
                                             </td>
                                         </tr>
                                     ))

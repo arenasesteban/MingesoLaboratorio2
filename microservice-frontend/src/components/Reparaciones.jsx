@@ -53,7 +53,7 @@ export default function Reparaciones() {
                                         Fecha retiro
                                     </th>
                                     <th scope="col" class="font-semibold px-6 py-4">
-                                        Monto total
+                                        Costo total
                                     </th>
 
                                 </tr>
@@ -66,16 +66,22 @@ export default function Reparaciones() {
                                                 {registro.patente}
                                             </td>
                                             <td class="px-6 py-3">
-                                                {registro.fechaIngreso}
+                                                {registro.fecha_ingreso}
                                             </td>
                                             <td class="px-6 py-3">
-                                                {registro.fechaSalida}
+                                                {registro.fecha_salida !== null
+                                                    ? `${registro.fecha_salida}`
+                                                    : "-"
+                                                }
                                             </td>
                                             <td class="px-6 py-3">
-                                                {registro.fechaRetiro}
+                                                {registro.fecha_retiro !== null
+                                                    ? `${registro.fecha_retiro}`
+                                                    : "-"
+                                                }
                                             </td>
                                             <td class="px-6 py-3">
-                                                $ {registro.montoTotal}
+                                                $ {registro.costo_total}
                                             </td>
                                         </tr>
                                     ))

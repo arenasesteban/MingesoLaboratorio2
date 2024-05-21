@@ -1,20 +1,25 @@
 import { React, useState, useEffect } from "react";
-import vehiculoService from "../services/vehiculo.service";
+import reporteService from "../services/reporte.service";
+import reparaciones from "../data/reparacionesData";
 
 export default function ReporteComparativa() {
-    const [promediosReparaciones, setPromediosReparaciones] = useState([]);
+    const [reporte_comparativa, setReporteComparativa] = useState([]);
 
-    async function buscarPromediosReparaciones() {
+    async function buscarReporteComparativa() {
         try {
-            const response = await vehiculoService.obtenerPromedioReparacion();
-            setPromediosReparaciones(response.data);
+            const tipo_reparaciones = reparaciones.map(reparacion => reparacion.tipo_reparacion);
+            const mes = new Date().getMonth() + 1; // Obtener el mes actual
+
+            const response = await reporteService.reporteComparativo(tipo_reparaciones, mes);
+            setReporteComparativa(response.data);
+            console.log(response.data)
         } catch (error) {
-            console.error('Error al obtener los registros:', error);
+            console.error('Error al obtener el reporte:', error);
         }
     }
 
     useEffect(() => {
-        buscarPromediosReparaciones();
+        buscarReporteComparativa();
     }, [])
 
     return (
@@ -31,27 +36,60 @@ export default function ReporteComparativa() {
                             <thead className="border-b bg-white">
                                 <tr className="text-gray-700">
                                     <th scope="col" className="font-semibold px-6 py-4">
-                                        Marca vehiculo
+                                        Reparación
                                     </th>
                                     <th scope="col" className="font-semibold px-6 py-4">
-                                        Tiempo promedio de reparación
+                                        {reporte_comparativa.length > 0
+                                            ? `${reporte_comparativa[0].primer_mes}`
+                                            : "Primer mes"
+                                        }
+                                    </th>
+                                    <th scope="col" className="font-semibold px-6 py-4">
+                                        Variación
+                                    </th>
+                                    <th scope="col" className="font-semibold px-6 py-4">
+                                        {reporte_comparativa.length > 0
+                                            ? `${reporte_comparativa[0].segundo_mes}`
+                                            : "Segundo mes"
+                                        }
+                                    </th>
+                                    <th scope="col" className="font-semibold px-6 py-4">
+                                        Variación
+                                    </th>
+                                    <th scope="col" className="font-semibold px-6 py-4">
+                                        {reporte_comparativa.length > 0
+                                            ? `${reporte_comparativa[0].tercer_mes}`
+                                            : "Tercer mes"
+                                        }
                                     </th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {
-                                    promediosReparaciones.map((promedioReparacion, index) => (
+                                    reporte_comparativa.map((reporte_comparativa, index) => (
                                         <tr key={index} class="bg-white font-light border-b hover:bg-gray-50">
                                             <td scope="row" class="px-6 py-4 font-medium text-gray-900">
-                                                {promedioReparacion.marca}
+                                                {reporte_comparativa.tipo_reparacion}
                                             </td>
-                                            <td className="px-6 py-3">
-                                                {promedioReparacion.tiempoPromedioReparacion !== -1
-                                                    ? (promedioReparacion.tiempoPromedioReparacion > 1
-                                                        ? `${promedioReparacion.tiempoPromedioReparacion} días`
-                                                        : `${promedioReparacion.tiempoPromedioReparacion} día`)
-                                                    : "Aún no hay reparaciones"
-                                                }
+                                            <td class="px-6 py-3">
+                                                {reporte_comparativa.cantidad_primer_mes}<br/>
+                                                $ {reporte_comparativa.monto_primer_mes}
+                                            </td>
+                                            <td class="px-6 py-3">
+                                                {reporte_comparativa.primera_variacion_cantidad} %<br/>
+                                                {reporte_comparativa.primera_variacion_monto} %
+                                            </td>
+                                            <td class="px-6 py-3">
+                                                {reporte_comparativa.cantidad_segundo_mes}<br/>
+                                                $ {reporte_comparativa.monto_segundo_mes}
+                                            </td>
+                                            <td class="px-6 py-3">
+                                                {reporte_comparativa.segunda_variacion_cantidad} %<br/>
+                                                {reporte_comparativa.segunda_variacion_monto} %
+                                            </td>
+                                            <td class="px-6 py-3">
+                                                {reporte_comparativa.cantidad_tercer_mes}<br/>
+                                                $ {reporte_comparativa.monto_tercer_mes}
                                             </td>
                                         </tr>
                                     ))

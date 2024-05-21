@@ -56,13 +56,13 @@ export default function Vehiculos() {
                                         Motor
                                     </th>
                                     <th scope="col" className="font-semibold px-6 py-4">
-                                        Año fabricación
-                                    </th>
-                                    <th scope="col" className="font-semibold px-6 py-4">
                                         Asientos
                                     </th>
                                     <th scope="col" className="font-semibold px-6 py-4">
                                         Kilometraje
+                                    </th>
+                                    <th scope="col" className="font-semibold px-6 py-4">
+                                        Año fabricación
                                     </th>
                                 </tr>
                             </thead>
@@ -85,14 +85,14 @@ export default function Vehiculos() {
                                             <td class="px-6 py-3">
                                                 {vehiculo.motor}
                                             </td>
-                                            <td class="px-6 py-3">
-                                                {vehiculo.ano_fabricacion}
-                                            </td>
                                             <td class="px-6 py-3"> 
                                                 {vehiculo.numero_asientos}
                                             </td>
                                             <td class="px-6 py-3">
                                                 {vehiculo.kilometraje} km
+                                            </td>
+                                            <td class="px-6 py-3">
+                                                {vehiculo.ano_fabricacion}
                                             </td>
                                         </tr>
                                     ))

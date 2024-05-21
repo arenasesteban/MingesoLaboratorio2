@@ -7,11 +7,11 @@ export default function VehiculosFormulario() {
     const [patente, setPatente] = useState("");
     const [marca, setMarca] = useState("");
     const [modelo, setModelo] = useState("");
-    const [tipoAuto, setTipoAuto] = useState("Sedan");
-    const [anoFabricacion, setAnoFabricacion] = useState("");
-    const [tipoMotor, setTipoMotor] = useState("Gasolina");
-    const [numeroAsientos, setNumeroAsientos] = useState("");
+    const [tipo, setTipo] = useState("Sedan");
+    const [motor, setMotor] = useState("Gasolina");
+    const [numero_asientos, setNumeroAsientos] = useState("");
     const [kilometraje, setKilometriaje] = useState("");
+    const [ano_fabricacion, setAnoFabricacion] = useState("");
 
     const navigate = useNavigate();
 
@@ -23,11 +23,11 @@ export default function VehiculosFormulario() {
                 patente,
                 marca, 
                 modelo,
-                tipoAuto,
-                anoFabricacion,
-                tipoMotor,
-                numeroAsientos,
-                kilometraje
+                tipo,
+                motor,
+                numero_asientos,
+                kilometraje,
+                ano_fabricacion
             });
 
             console.log(response.data);
@@ -56,10 +56,6 @@ export default function VehiculosFormulario() {
                                 <input type="text" id="patente" class="bg-gray-50 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="" onChange={e => setPatente(e.target.value.toUpperCase())} required />
                             </div>
                             <div>
-                                <label for="anoFabricacion" class="block mb-2 font-semibold text-gray-700">Año fabricación</label>
-                                <input type="number" id="anoFabricacion" class="bg-gray-50 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="" onChange={e => setAnoFabricacion(e.target.value)} required />
-                            </div>
-                            <div>
                                 <label for="marca" class="block mb-2 font-semibold text-gray-700">Marca</label>
                                 <input type="text" id="marca" class="bg-gray-50 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="" onChange={e => setMarca(e.target.value.charAt(0).toUpperCase() + e.target.value.slice(1).toLowerCase())} required />
                             </div>
@@ -67,19 +63,9 @@ export default function VehiculosFormulario() {
                                 <label for="modelo" class="block mb-2 font-semibold text-gray-700">Modelo</label>
                                 <input type="text" id="modelo" class="bg-gray-50 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="" onChange={e => setModelo(e.target.value.charAt(0).toUpperCase() + e.target.value.slice(1).toLowerCase())} required />
                             </div>
-                            
                             <div>
-                                <label for="tipoMotor" class="block mb-2 font-semibold text-gray-700">Motor</label>
-                                <select id="tipoMotor" class="bg-gray-50 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" onChange={e => setTipoMotor(e.target.value)} required>
-                                    <option>Gasolina</option>
-                                    <option>Diesel</option>
-                                    <option>Híbrido</option>
-                                    <option>Eléctrico</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label for="tipoAuto" class="block mb-2 font-semibold text-gray-700">Tipo</label>
-                                <select id="tipoAuto" class="bg-gray-50 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" onChange={e => setTipoAuto(e.target.value)} required>
+                                <label for="tipo" class="block mb-2 font-semibold text-gray-700">Tipo</label>
+                                <select id="tipo" class="bg-gray-50 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" onChange={e => setTipo(e.target.value)} required>
                                     <option>Sedan</option>
                                     <option>Hatchback</option>
                                     <option>SUV</option>
@@ -88,12 +74,25 @@ export default function VehiculosFormulario() {
                                 </select>
                             </div>
                             <div>
-                                <label for="numeroAsientos" class="block mb-2 font-semibold text-gray-700">Número asientos</label>
-                                <input type="number" id="numeroAsientos" class="bg-gray-50 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="" onChange={e => setNumeroAsientos(e.target.value)} required />
+                                <label for="motor" class="block mb-2 font-semibold text-gray-700">Motor</label>
+                                <select id="motor" class="bg-gray-50 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" onChange={e => setMotor(e.target.value)} required>
+                                    <option>Gasolina</option>
+                                    <option>Diesel</option>
+                                    <option>Híbrido</option>
+                                    <option>Eléctrico</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="numero_asientos" class="block mb-2 font-semibold text-gray-700">Número asientos</label>
+                                <input type="number" id="numero_asientos" class="bg-gray-50 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="" onChange={e => setNumeroAsientos(e.target.value)} required />
                             </div>
                             <div>
                                 <label for="kilometraje" class="block mb-2 font-semibold text-gray-700">Kilometraje</label>
                                 <input type="number" id="kilometraje" class="bg-gray-50 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="" onChange={e => setKilometriaje(e.target.value)} required />
+                            </div>
+                            <div>
+                                <label for="ano_fabricacion" class="block mb-2 font-semibold text-gray-700">Año fabricación</label>
+                                <input type="number" id="ano_fabricacion" class="bg-gray-50 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="" onChange={e => setAnoFabricacion(e.target.value)} required />
                             </div>
                             <div className="col-span-2 flex justify-end">
                                 <BotonRegistrar onClick={manejarRegistroVehiculo} enlace="" tipoAccion="Registrar"/>
@@ -101,7 +100,6 @@ export default function VehiculosFormulario() {
                         </div>
                     </form>
                 </div>
-
             </div>
         </div>
     )

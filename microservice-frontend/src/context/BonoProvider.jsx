@@ -4,27 +4,27 @@ import { BonoContext } from "./bonoContext";
 export const BonoProvider = ({ children }) => {
     const [bonos, setBonos] = useState([]);
   
-    const agregarBono = (nuevoBono) => {
-        setBonos([...bonos, nuevoBono]);
+    const agregarBono = (nuevo_bono) => {
+        setBonos([...bonos, nuevo_bono]);
     };
   
     const modificarBono = (marca, valor) => {
-        const indiceBono = bonos.findIndex(bono => bono.marca == marca && bono.valor == valor);
+        const indice_bono = bonos.findIndex(bono => bono.marca == marca && bono.valor == valor);
 
         const nuevosBonos = [...bonos];
-        nuevosBonos[indiceBono].cantidad -= 1;
+        nuevosBonos[indice_bono].cantidad -= 1;
 
-        if(nuevosBonos[indiceBono].cantidad < 1) {
-            nuevosBonos.splice(indiceBono, 1);
+        if(nuevosBonos[indice_bono].cantidad < 1) {
+            nuevosBonos.splice(indice_bono, 1);
         }
 
         setBonos(nuevosBonos);
     };
   
-    const eliminarBono = (indiceBono) => {
-        const nuevosBonos = [...bonos];
-        nuevosBonos.splice(indiceBono, 1);
-        setBonos(nuevosBonos);
+    const eliminarBono = (indice_bono) => {
+        const nuevos_bonos = [...bonos];
+        nuevos_bonos.splice(indice_bono, 1);
+        setBonos(nuevos_bonos);
     };
   
     return (
