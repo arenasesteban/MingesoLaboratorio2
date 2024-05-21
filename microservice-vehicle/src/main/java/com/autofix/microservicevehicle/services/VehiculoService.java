@@ -31,4 +31,11 @@ public class VehiculoService {
     public List<String> obtenerPatentesPorTipoVehiculo(List<String> patentes, String tipo_vehiculo) {
         return vehiculoRepository.encontrarPatentesPorPatenteYTipoVehiculo(patentes, tipo_vehiculo);
     }
+
+    public Vehiculo actualizarVehiculo(String patente, Integer kilometraje) {
+        Vehiculo vehiculo_1 = vehiculoRepository.encontrarPorPatente(patente);
+        vehiculo_1.setKilometraje(kilometraje);
+        System.out.println("VEHICULO: " + vehiculo_1);
+        return vehiculoRepository.save(vehiculo_1);
+    }
 }

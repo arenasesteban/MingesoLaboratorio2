@@ -2,6 +2,7 @@ package com.autofix.microservicevehicle.controllers;
 
 import com.autofix.microservicevehicle.entities.Vehiculo;
 import com.autofix.microservicevehicle.services.VehiculoService;
+import org.hibernate.persister.entity.SingleTableEntityPersister;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,8 +17,8 @@ public class VehiculoController {
 
     @PostMapping("/")
     public ResponseEntity<Vehiculo> crearVehiculo(@RequestBody Vehiculo vehiculo) {
-        Vehiculo vehiculo1 = vehiculoService.crearVehiculo(vehiculo);
-        return ResponseEntity.ok(vehiculo1);
+        Vehiculo vehiculo_1 = vehiculoService.crearVehiculo(vehiculo);
+        return ResponseEntity.ok(vehiculo_1);
     }
 
     @GetMapping("/")
@@ -42,5 +43,11 @@ public class VehiculoController {
     public ResponseEntity<List<String>> obtenerPatentesPorTipoVehiculo(@RequestParam List<String> patentes, @RequestParam String tipo_vehiculo) {
         List<String> patentes_tipo_vehiculo = vehiculoService.obtenerPatentesPorTipoVehiculo(patentes, tipo_vehiculo);
         return ResponseEntity.ok(patentes_tipo_vehiculo);
+    }
+
+    @PutMapping("/")
+    public ResponseEntity<Vehiculo> actualizarVehiculo(@RequestParam String patente, @RequestParam Integer kilometraje) {
+        Vehiculo vehiculo_1 = vehiculoService.actualizarVehiculo(patente, kilometraje);
+        return ResponseEntity.ok(vehiculo_1);
     }
 }
