@@ -30,8 +30,14 @@ public class RegistroController {
         return ResponseEntity.ok(registros);
     }
 
-    @GetMapping("/calcular-total")
-    public ResponseEntity<Registro> calcularTotal(@RequestBody Registro registro, @RequestParam int descuento_bono) {
+    @GetMapping("/{id_registro}")
+    public ResponseEntity<Registro> obtenerRegistro(@PathVariable Long id_registro) {
+        Registro registro = registroService.obtenerRegistro(id_registro);
+        return ResponseEntity.ok(registro);
+    }
+
+    @PostMapping("/calcular-total")
+    public ResponseEntity<Registro> calcularTotal(@RequestBody Registro registro, @RequestParam Integer descuento_bono) {
         Registro registro_1 = registroService.calcularTotal(registro, descuento_bono);
         return ResponseEntity.ok(registro_1);
     }
@@ -46,5 +52,11 @@ public class RegistroController {
     public ResponseEntity<ReparacionMeses> reporteReparacionMeses(@RequestParam String tipo_reparacion, @RequestParam Integer mes) {
         ReparacionMeses reparacionMeses = registroService.reporteReparacionMeses(tipo_reparacion, mes);
         return ResponseEntity.ok(reparacionMeses);
+    }
+
+    @PutMapping("/")
+    public ResponseEntity<Registro> actualizarRegistro(@RequestBody Registro registro) {
+        Registro registro_1 = registroService.actualizarRegistro(registro);
+        return ResponseEntity.ok(registro_1);
     }
 }

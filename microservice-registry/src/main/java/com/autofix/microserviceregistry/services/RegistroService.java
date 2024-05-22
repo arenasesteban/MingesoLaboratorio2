@@ -34,6 +34,10 @@ public class RegistroService {
         return registroRepository.findAll();
     }
 
+    public Registro obtenerRegistro(Long id_registro) {
+        return registroRepository.encontrarPorId_registro(id_registro);
+    }
+
     public Registro calcularTotal(Registro registro, int descuento_bono) {
         Vehiculo vehiculo = vehiculoFeignClient.obtenerVehiculoPorPatente(registro.getPatente());
 
@@ -231,5 +235,9 @@ public class RegistroService {
         reparacionMeses.setMonto_tercer_mes(cantidad_monto_3.getMonto());
 
         return reparacionMeses;
+    }
+
+    public Registro actualizarRegistro(Registro registro) {
+        return registroRepository.save(registro);
     }
 }
