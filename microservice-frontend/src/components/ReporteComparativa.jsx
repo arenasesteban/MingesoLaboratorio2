@@ -1,33 +1,58 @@
 import { React, useState, useEffect } from "react";
 import reporteService from "../services/reporte.service";
 import reparaciones from "../data/reparacionesData";
+import BotonNuevo from './BotonNuevo';
 
 export default function ReporteComparativa() {
+    const [mes, setMes] = useState([])
+
     const [reporte_comparativa, setReporteComparativa] = useState([]);
 
-    async function buscarReporteComparativa() {
+    async function manejarReporteComparativa(e) {
+        e.preventDefault();
+
         try {
             const tipo_reparaciones = reparaciones.map(reparacion => reparacion.tipo_reparacion);
-            const mes = new Date().getMonth() + 1; // Obtener el mes actual
 
             const response = await reporteService.reporteComparativo(tipo_reparaciones, mes);
             setReporteComparativa(response.data);
-            console.log(response.data)
+            console.log(response.data);
         } catch (error) {
-            console.error('Error al obtener el reporte:', error);
+            console.error("Error al obtener el reporte: ", error);
         }
     }
 
-    useEffect(() => {
-        buscarReporteComparativa();
-    }, [])
+    /* useEffect(() => {
+        manejarReporteComparativa();
+    }, []) */
 
     return (
         <div className="flex h-4/5 mx-10 my-6">   
             <div className="flex flex-col w-full">
                 <div className="flex justify-between items-end">
                     <div className="space-y-1">
-                    <h1 className="text-2xl text-gray-900">Comparativa General</h1>
+                        <h1 className="text-2xl text-gray-900">Comparativa General</h1>
+                    </div>
+                    <div className="flex gap-6">
+                        <div className="flex items-center gap-4">
+                            <label for="mes" class="block font-semibold text-gray-700">Mes</label>
+                            <select id="mes" class="bg-white border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" onChange={e => setMes(e.target.value)} required>
+                                <option value="0">Escoger mes</option>
+                                <option value="1">Enero</option>
+                                <option value="2">Febrero</option>
+                                <option value="3">Marzo</option>
+                                <option value="4">Abril</option>
+                                <option value="5">Mayo</option>
+                                <option value="6">Junio</option>
+                                <option value="7">Julio</option>
+                                <option value="8">Agosto</option>
+                                <option value="9">Septiembre</option>
+                                <option value="10">Octubre</option>
+                                <option value="11">Noviembre</option>
+                                <option value="12">Diciembre</option>
+                            </select>
+                        </div>
+                        <BotonNuevo onClick={manejarReporteComparativa} tipoElemento={"Generar Reporte"}/>
                     </div>
                 </div>
                 <div className="mt-6 overflow-auto shadow-lg shadow-gray-200 rounded-xl">
@@ -35,7 +60,7 @@ export default function ReporteComparativa() {
                         <table className="text-left w-full">
                             <thead className="border-b bg-white">
                                 <tr className="text-gray-700">
-                                    <th scope="col" className="font-semibold px-6 py-4">
+                                    <th scope="col" className="font-semibold pl-6 py-4">
                                         Reparación
                                     </th>
                                     <th scope="col" className="font-semibold px-6 py-4">
@@ -68,7 +93,7 @@ export default function ReporteComparativa() {
                                 {
                                     reporte_comparativa.map((reporte_comparativa, index) => (
                                         <tr key={index} class="bg-white font-light border-b hover:bg-gray-50">
-                                            <td scope="row" class="px-6 py-4 font-medium text-gray-900">
+                                            <td scope="row" class="pl-6 py-4 font-medium text-gray-900">
                                                 {reporte_comparativa.tipo_reparacion}
                                             </td>
                                             <td class="px-6 py-3">

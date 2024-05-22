@@ -10,8 +10,20 @@ function obtenerRegistros() {
     return axios.get(REGISTRO_API_URL);
 }
 
-function calcularTotal(registro, bono) {
-    return axios.get(REGISTRO_API_URL + "calcular-total",  registro, { params: { descuento_bono: bono }});
+function obtenerRegistro(id_registro) {
+    return axios.get(REGISTRO_API_URL + id_registro, null)
 }
 
-export default { crearRegistro, obtenerRegistros, calcularTotal };
+function calcularTotal(registro, bono) {
+    return axios.post(REGISTRO_API_URL + "calcular-total", registro, {
+        params: {
+            descuento_bono: bono
+        }
+    });
+}
+
+function actualizarRegistro(registro) {
+    return axios.put(REGISTRO_API_URL, registro);
+}
+
+export default { crearRegistro, obtenerRegistros, calcularTotal, obtenerRegistro, actualizarRegistro };

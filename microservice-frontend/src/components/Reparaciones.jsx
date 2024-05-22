@@ -2,6 +2,8 @@ import { React, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import BotonNuevo from './BotonNuevo';
 import registroService from "../services/registro.service";
+import BotonCalcular from "./BotonCalcular";
+import BotonDetalle from "./BotonDetalle";
 
 export default function Reparaciones() {
     const [registros, setRegistros] = useState([]);
@@ -21,8 +23,16 @@ export default function Reparaciones() {
 
     const navigate = useNavigate();
 
-    const manejarOnClickNavigate = () => {
+    const redirecToReparacionesRegistrar = () => {
         navigate("/reparaciones/registrar");
+    }
+
+    const redirectToReparacionesEditar = (id_registro) => {
+        navigate(`/reparaciones/editar/${id_registro}`);
+    }
+
+    const redirectToReparacionesDetalle = (id_registro) => {
+        navigate(`/reparaciones/detalle/${id_registro}`);
     }
 
     return (
@@ -33,7 +43,7 @@ export default function Reparaciones() {
                         <h1 className="text-2xl text-gray-900">Reparaciones</h1>
                         <h2 className="text-gray-500 uppercase">Historial de reparaciones</h2>
                     </div>
-                    <BotonNuevo onClick={manejarOnClickNavigate} tipoElemento={"Nueva reparación"}/>
+                    <BotonNuevo onClick={redirecToReparacionesRegistrar} tipoElemento={"Nueva reparación"}/>
                 </div>
                 <div className="mt-6 overflow-auto shadow-lg shadow-gray-200 rounded-xl">
                     <div>
@@ -55,7 +65,9 @@ export default function Reparaciones() {
                                     <th scope="col" class="font-semibold px-6 py-4">
                                         Costo total
                                     </th>
-
+                                    <th scope="col" class="font-semibold px-6 py-4">
+                                        Acción
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -81,7 +93,16 @@ export default function Reparaciones() {
                                                 }
                                             </td>
                                             <td class="px-6 py-3">
-                                                $ {registro.costo_total}
+                                                {registro.costo_total !== null
+                                                    ? `$ ${registro.costo_total}`
+                                                    : "-"
+                                                }
+                                            </td>
+                                            <td class="px-6 py-3">
+                                                {registro.costo_total !== null
+                                                    ? <BotonDetalle onClick={() => redirectToReparacionesDetalle(registro.id_registro)} />
+                                                    : <BotonCalcular onClick={() => redirectToReparacionesEditar(registro.id_registro)} />
+                                                }
                                             </td>
                                         </tr>
                                     ))

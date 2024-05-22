@@ -54,7 +54,30 @@ export default function ReparacionesFormulario() {
 
     const navigate = useNavigate();
 
-    const calcularPrecioReparaciones = (reparaciones, motor, fecha_reparacion, hora_reparacion, id_registro, patente) => {
+    const calcularMontoReparaciones = (reparaciones, motor) => {
+        let monto_reparaciones = 0;
+        
+        for(const reparacion of reparaciones) {
+            switch (motor) {
+                case "Gasolina":
+                    monto_reparaciones += reparacion.gasolina;
+                    break;
+                case "Diesel":
+                    monto_reparaciones += reparacion.diesel;
+                    break;
+                case "Híbrido":
+                    monto_reparaciones += reparacion.hibrido;
+                    break;
+                case "Eléctrico":
+                    monto_reparaciones += reparacion.electrico;
+                    break;
+            }
+        }
+
+        return monto_reparaciones;
+    }
+
+    const crearReparaciones = (reparaciones, motor, fecha_reparacion, hora_reparacion, id_registro, patente) => {
         const reparaciones_aux = []
         let monto_reparacion = 0;
 
@@ -74,7 +97,7 @@ export default function ReparacionesFormulario() {
                     break;
             }
 
-            const reparacion_pbjeto = {
+            const reparacion_objeto = {
                 numero_reparacion: reparacion.numero_reparacion,
                 tipo_reparacion: reparacion.tipo_reparacion,
                 fecha_reparacion,
@@ -84,7 +107,7 @@ export default function ReparacionesFormulario() {
                 patente
             };
     
-            reparaciones_aux.push(reparacion_pbjeto);
+            reparaciones_aux.push(reparacion_objeto);
         }
 
         return reparaciones_aux;
@@ -94,18 +117,21 @@ export default function ReparacionesFormulario() {
         e.preventDefault();
 
         try {
+            const monto_reparaciones = calcularMontoReparaciones(reparaciones_seleccionadas, motor);
+            console.log(monto_reparaciones);
+
             const response_registro = await registroService.crearRegistro({
                 fecha_ingreso,
                 hora_ingreso,
+                monto_reparaciones,
                 patente
             });
             console.log("Response - Crear registro: ", response_registro.data);
 
-            console.log("Patente ", patente)
             const response_vehiculo = await vehiculoService.actualizarVehiculo(patente, kilometraje);
             console.log("Response - Actualizar vehiculo", response_vehiculo.data);
 
-            const reparaciones_aux = calcularPrecioReparaciones(reparaciones_seleccionadas, motor, fecha_ingreso, hora_ingreso, response_registro.data.id_registro, patente);
+            const reparaciones_aux = crearReparaciones(reparaciones_seleccionadas, motor, fecha_ingreso, hora_ingreso, response_registro.data.id_registro, patente);
 
             const response_reparacion = await reparacionService.crearReparacion(reparaciones_aux);
             console.log("Response - Crear reparación", response_reparacion.data);

@@ -4,16 +4,14 @@ import registroService from "../services/registro.service";
 import BotonRegistrar from "./BotonRegistrar";
 
 export default function Detalle() {
-    console.log("")
-
-    const { idRegistro, bono } = useParams();
-    const [detalle, setDetalle] = useState("");
+    const { id_registro } = useParams();
+    const [registro, setRegistro] = useState("");
 
     async function buscarInformacion() {
         try {
-            const registroResponse = await registroService.calcularTotal(idRegistro, bono);
-            setDetalle(registroResponse.data);
-            console.log("Registro response: ", registroResponse.data);
+            const response = await registroService.obtenerRegistro(id_registro);
+            setRegistro(response.data);
+            console.log("Registro response: ", response.data);
         } catch (error) {
             console.log(error);
         }
@@ -21,55 +19,86 @@ export default function Detalle() {
 
     useEffect(() => {
         buscarInformacion();
-    }, [idRegistro]);
+    }, [id_registro]);
 
     const navigate = useNavigate();
 
-    const manejarOnClickNavigate = () => {
+    const redirecToReparaciones = () => {
         navigate("/reparaciones");
     }
 
     return (
-        <div className="flex h-4/5 m-9 p-12 bg-gray-100 shadow-md border border-gray-300 rounded-md">   
+        <div className="flex h-4/5 mx-10 my-6">   
             <div className="flex flex-col w-full">
-                <div className="flex justify-between items-center border-b border-gray-300 pb-4">
-                    <div className="flex items-center text-gray-700">
-                        <h1 className="text-3xl font-bold uppercase pr-4 mr-2">Detalle reparación</h1>
+                <div className="flex justify-between items-end">
+                    <div className="space-y-1">
+                        <h1 className="text-2xl text-gray-900">Reparaciones</h1>
+                        <h2 className="text-gray-500 uppercase">Detalle - Id Registro {registro.id_registro}</h2>
                     </div>
+                    <BotonRegistrar onClick={redirecToReparaciones} tipoAccion={"Volver a reparaciones"}/>
                 </div>
-                <div className="flex justify-center mt-6">
-                    <div className="bg-white py-4 px-2 border rounded-md shadow">
-                        <div className="flex justify-between space-x-56 bg-gray-100 mx-2 px-10 py-3 rounded-md">
-                            <p className="font-bold text-gray-700 uppercase">Operación</p>
-                            <p className="font-bold text-gray-700 uppercase">Monto</p>
-                        </div>
-                        <div className="flex justify-between space-x-56 px-12 py-3">
-                            <p className="font-bold text-gray-700">Reparaciones</p>
-                            <p className="text-gray-700">$ {detalle.reparaciones}</p>
-                        </div>
-                        <div className="flex justify-between space-x-56 px-12 py-3">
-                            <p className="font-bold text-gray-700">Recargos</p>
-                            <p className="text-gray-700">$ {detalle.recargos}</p>
-                        </div>
-                        <div className="flex justify-between space-x-56 px-12 py-3">
-                            <p className="font-bold text-gray-700">Descuento</p>
-                            <p className="text-gray-700">$ {detalle.descuentos}</p>
-                        </div>
-                        <div className="flex justify-between space-x-56 bg-gray-100 mx-2 px-10 py-3 rounded-md">
-                            <p className="font-bold text-gray-700">Total</p>
-                            <p className="text-gray-700">$ {detalle.reparaciones + detalle.recargos - detalle.descuentos}</p>
-                        </div>
-                        <div className="flex justify-between space-x-56 px-12 py-3">  
-                            <p className="font-bold text-gray-700">IVA</p>
-                            <p className="text-gray-700">$ {detalle.iva}</p>
-                        </div>
-                        <div className="flex justify-between space-x-56 bg-gray-100 mx-2 px-10 py-3 rounded-md">
-                            <p className="font-bold text-gray-700">Monto total</p>
-                            <p className="text-gray-700">$ {detalle.montoTotal}</p>
-                        </div>
-                        <div className="flex justify-center mt-4">
-                            <BotonRegistrar onClick={manejarOnClickNavigate} tipoAccion={"Cerrar detalle"}/>   
-                        </div> 
+                <div className="mt-6 overflow-auto shadow-lg shadow-gray-200 rounded-xl">
+                    <div>
+                        <table className="text-left w-full">
+                            <thead className="border-b bg-white">
+                                <tr className="text-gray-700">
+                                    <th scope="col" className="font-semibold px-6 py-4">
+                                        Operación
+                                    </th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="bg-white font-light border-b hover:bg-gray-50">
+                                    <td scope="row" class="px-6 py-4 font-medium text-gray-900">
+                                        Monto Reparaciones
+                                    </td>
+                                    <td class="px-6 py-3">
+                                        $ {registro.monto_reparaciones}
+                                    </td>
+                                </tr>
+                                <tr class="bg-white font-light border-b hover:bg-gray-50">
+                                    <td scope="row" class="px-6 py-4 font-medium text-gray-900">
+                                        Recargos
+                                    </td>
+                                    <td class="px-6 py-3">
+                                        $ {registro.monto_recargos}
+                                    </td>
+                                </tr>
+                                <tr class="bg-white font-light border-b hover:bg-gray-50">
+                                    <td scope="row" class="px-6 py-4 font-medium text-gray-900">
+                                        Descuentos
+                                    </td>
+                                    <td class="px-6 py-3">
+                                        $ {registro.monto_descuentos}
+                                    </td>
+                                </tr>
+                                <tr class="bg-white font-light border-b hover:bg-gray-50">
+                                    <td scope="row" class="px-6 py-4 font-medium text-gray-900">
+                                        Monto total
+                                    </td>
+                                    <td class="px-6 py-3">
+                                        $ {registro.monto_reparaciones + registro.monto_recargos - registro.monto_descuentos}
+                                    </td>
+                                </tr>
+                                <tr class="bg-white font-light border-b hover:bg-gray-50">
+                                    <td scope="row" class="px-6 py-4 font-medium text-gray-900">
+                                        IVA
+                                    </td>
+                                    <td class="px-6 py-3">
+                                        $ {registro.monto_iva}
+                                    </td>
+                                </tr>
+                                <tr class="bg-white font-light border-b hover:bg-gray-50">
+                                    <td scope="row" class="px-6 py-4 font-medium text-gray-900">
+                                        Costo total
+                                    </td>
+                                    <td class="px-6 py-3">
+                                        $ {registro.costo_total}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
