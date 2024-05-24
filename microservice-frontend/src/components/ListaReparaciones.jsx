@@ -1,6 +1,6 @@
 import { React, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import BotonNuevo from './BotonNuevo';
+import BotonNuevo from "./BotonNuevo";
 import reparacionService from "../services/reparacion.service";
 
 export default function ListaReparaciones() {
@@ -22,7 +22,7 @@ export default function ListaReparaciones() {
     const navigate = useNavigate();
 
     const redirecToListaReparacionesRegistrar = () => {
-        navigate("/");
+        navigate("/reparaciones/lista-reparaciones/crear");
     }
 
     return (
