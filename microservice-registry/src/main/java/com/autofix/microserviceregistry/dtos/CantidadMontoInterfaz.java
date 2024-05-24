@@ -1,6 +1,4 @@
-package com.autofix.microservicerepair.dtos;
-
-import lombok.Data;
+package com.autofix.microserviceregistry.dtos;
 
 public interface CantidadMontoInterfaz {
     Integer getCantidad();

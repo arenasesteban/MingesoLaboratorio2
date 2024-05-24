@@ -1,6 +1,5 @@
 package com.autofix.microservicerepair.controllers;
 
-import com.autofix.microservicerepair.dtos.CantidadMontoInterfaz;
 import com.autofix.microservicerepair.entities.Reparacion;
 import com.autofix.microservicerepair.services.ReparacionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,32 +15,20 @@ public class ReparacionController {
     ReparacionService reparacionService;
 
     @PostMapping("/")
-    public ResponseEntity<List<Reparacion>> crearReparacion(@RequestBody List<Reparacion> reparaciones) {
-        List<Reparacion> reparaciones_1 = reparacionService.crearReparacion(reparaciones);
+    public ResponseEntity<List<Reparacion>> crearReparaciones(List<Reparacion> reparaciones) {
+        List<Reparacion> reparaciones_1 = reparacionService.crearReparaciones(reparaciones);
         return ResponseEntity.ok(reparaciones_1);
     }
 
-    @GetMapping("/cantidad-reparaciones")
-    public ResponseEntity<Integer> obtenerCantidadReparaciones(@RequestParam List<Long> id_registros) {
-        Integer cantidad_reparaciones = reparacionService.obtenerCantidadReparaciones(id_registros);
-        return ResponseEntity.ok(cantidad_reparaciones);
+    @GetMapping("/")
+    public ResponseEntity<List<Reparacion>> obtenerReparaciones() {
+        List<Reparacion> reparaciones = reparacionService.obtenerReparaciones();
+        return ResponseEntity.ok(reparaciones);
     }
 
-    @GetMapping("/patentes")
-    public ResponseEntity<List<String>> obtenerPatentesPorTipoReparacion(@RequestParam String tipo_reparacion, @RequestParam Integer mes, @RequestParam Integer ano) {
-        List<String> patentes = reparacionService.obtenerIdRegistroPorTipoReparacion(tipo_reparacion, mes, ano);
-        return ResponseEntity.ok(patentes);
-    }
-
-    @GetMapping("/monto-tipo-reparacion")
-    public ResponseEntity<Integer> obtenerMontoPorPatenteYTipoReparacion(@RequestParam List<String> patentes, @RequestParam String tipo_reparacion, @RequestParam Integer mes, @RequestParam Integer ano) {
-        Integer monto_tipo_reparacion = reparacionService.obtenerMontoPorPatenteYTipoReparacion(patentes, tipo_reparacion, mes, ano);
-        return ResponseEntity.ok(monto_tipo_reparacion);
-    }
-
-    @GetMapping("/cantidad-monto")
-    public ResponseEntity<CantidadMontoInterfaz> calcularCantidadYMontoReparacionPorMes(@RequestParam String tipo_reparacion, @RequestParam Integer mes) {
-        CantidadMontoInterfaz cantidad_monto = reparacionService.calcularCantidadYMontoReparacionPorMes(tipo_reparacion, mes);
-        return ResponseEntity.ok(cantidad_monto);
+    @GetMapping("/tipo-reparaciones")
+    public ResponseEntity<List<String>> obtenerTipoReparaciones() {
+        List<String> tipo_reparaciones = reparacionService.obtenerTipoReparaciones();
+        return ResponseEntity.ok(tipo_reparaciones);
     }
 }
