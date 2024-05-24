@@ -18,6 +18,7 @@ export default function ReparacionesFormulario() {
 
             const response_reparacion = await reparacionService.obtenerReparaciones();
             setReparacionesDisponibles(response_reparacion.data);
+            console.log("REPARACIONES DISPONIBLES: ", reparaciones_disponibles);
         } catch (error) {
             console.error('Error al obtener los vehículos:', error);
         }
@@ -158,8 +159,8 @@ export default function ReparacionesFormulario() {
                     <form>
                         <div className="grid gap-4 grid-cols-2">
                             <div>
-                                <label for="patente" class="block mb-2 font-medium text-gray-700">Patente</label>
-                                <select id="patente" class="bg-gray-50 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" 
+                                <label for="patente" className="block mb-2 font-medium text-gray-700">Patente</label>
+                                <select id="patente" className="bg-gray-50 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" 
                                 onChange={e => {
                                     const selectedValue = JSON.parse(e.target.value);
                                     setPatente(selectedValue.patente);
@@ -176,42 +177,46 @@ export default function ReparacionesFormulario() {
                                 </select>
                             </div>
                             <div>
-                                <label for="kilometraje" class="block mb-2 font-medium text-gray-700">Kilometraje</label>
-                                <input type="number" id="kilometraje" class="bg-gray-50 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="" onChange={e => setKilometraje(e.target.value)} required />
+                                <label for="kilometraje" className="block mb-2 font-medium text-gray-700">Kilometraje</label>
+                                <input type="number" id="kilometraje" className="bg-gray-50 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="" onChange={e => setKilometraje(e.target.value)} required />
                             </div>
                             <div>
-                                <label for="disponibles" class="block mb-2 font-medium text-gray-700">Reparaciones disponibles</label>
-                                <select id="disponibles" class="bg-gray-50 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" onChange={(e) => (e.target.value !== "" ? manejarSeleccionarReparacion(e.target.value) : null)} required>
-                                    <option value="">Elegir reparación</option>
-                                    {
-                                        reparaciones_disponibles.map((reparacion, index) => (
-                                            <option key={index} value={index}>
-                                                {reparacion.id_reparacion} - {reparacion.tipo_reparacion}
-                                            </option>
-                                        ))    
-                                    }
-                                </select>
+                                <label htmlFor="disponibles" className="block mb-2 font-medium text-gray-700">Reparaciones disponibles</label>
+                                <div className="bg-gray-50 border border-gray-300 text-gray-700 text-sm rounded-lg block w-full h-[250px] overflow-auto p-2.5 space-y-2">
+                                    {reparaciones_disponibles.map((reparacion, index) => (
+                                        <div className="flex gap-2 py-1 px-2 rounded-xl bg-gray-200" key={index}>
+                                            <button type="button" onClick={() => manejarSeleccionarReparacion(index)}>
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-4">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                                                </svg>
+                                            </button>
+                                            {reparacion.tipo_reparacion}
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
                             <div>
-                                <label for="seleccionadas" class="block mb-2 font-medium text-gray-700">Reparaciones seleccionadas</label>
-                                <select id="seleccionadas" class="bg-gray-50 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" onChange={(e) => (e.target.value !== "" ? manejarEliminarReparacion(e.target.value) : null)} required>
-                                    <option value="">Revisar selección</option>
-                                    {
-                                        reparaciones_seleccionadas.map((reparacion, index) => (
-                                            <option key={index} value={index}>
-                                                {reparacion.id_reparacion} - {reparacion.tipo_reparacion}
-                                            </option>
-                                        ))
-                                    }
-                                </select>
+                                <label htmlFor="seleccionadas" className="block mb-2 font-medium text-gray-700">Reparaciones seleccionadas</label>
+                                <div className="bg-gray-50 border border-gray-300 text-gray-700 text-sm rounded-lg block w-full h-[250px] overflow-auto p-2.5 space-y-2">
+                                    {reparaciones_seleccionadas.map((reparacion, index) => (
+                                        <div className="flex gap-2 py-1 px-2 rounded-xl bg-gray-200" key={index}>
+                                            <button type="button" onClick={() => manejarEliminarReparacion(index)}>
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="rotate-45 size-4">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                                                </svg>
+                                            </button>
+                                            {reparacion.tipo_reparacion}
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
                             <div>
-                                <label for="fecha_ingreso" class="block mb-2 font-medium text-gray-700">Fecha ingreso</label>
-                                <input type="date" id="fecha_ingreso" class="bg-gray-50 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="" onChange={e => setFechaIngreso(e.target.value)} required />
+                                <label for="fecha_ingreso" className="block mb-2 font-medium text-gray-700">Fecha ingreso</label>
+                                <input type="date" id="fecha_ingreso" className="bg-gray-50 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="" onChange={e => setFechaIngreso(e.target.value)} required />
                             </div>
                             <div>
-                                <label for="hora_ingreso" class="block mb-2 font-medium text-gray-700">Hora ingreso</label>
-                                <input type="time" id="hora_ingreso" class="bg-gray-50 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="" onChange={e => setHoraIngreso(e.target.value)} required />
+                                <label for="hora_ingreso" className="block mb-2 font-medium text-gray-700">Hora ingreso</label>
+                                <input type="time" id="hora_ingreso" className="bg-gray-50 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="" onChange={e => setHoraIngreso(e.target.value)} required />
                             </div>
                             <div className="col-span-2 flex items-end justify-end">
                                 <BotonRegistrar onClick={manejarCrearRegistro} tipoAccion="Registrar"/>
