@@ -1,6 +1,7 @@
 import { React, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import BotonNuevo from './BotonNuevo';
+import BotonSecundario from "./BotonSecundario";
 import registroService from "../services/registro.service";
 import BotonCalcular from "./BotonCalcular";
 import BotonDetalle from "./BotonDetalle";
@@ -27,6 +28,10 @@ export default function Reparaciones() {
         navigate("/reparaciones/registrar");
     }
 
+    const redirecToListaReparaciones = () => {
+        navigate("/reparaciones/lista-reparaciones");
+    }
+
     const redirectToReparacionesEditar = (id_registro) => {
         navigate(`/reparaciones/editar/${id_registro}`);
     }
@@ -43,7 +48,10 @@ export default function Reparaciones() {
                         <h1 className="text-2xl text-gray-900">Reparaciones</h1>
                         <h2 className="text-gray-500 uppercase">Historial de reparaciones</h2>
                     </div>
-                    <BotonNuevo onClick={redirecToReparacionesRegistrar} tipoElemento={"Nueva reparación"}/>
+                    <div className="flex gap-4">
+                        <BotonSecundario onClick={redirecToListaReparaciones}></BotonSecundario>
+                        <BotonNuevo onClick={redirecToReparacionesRegistrar} tipoElemento={"Nueva reparación"}/>
+                    </div>
                 </div>
                 <div className="mt-6 overflow-auto shadow-lg shadow-gray-200 rounded-xl">
                     <div>

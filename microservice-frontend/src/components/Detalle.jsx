@@ -44,7 +44,7 @@ export default function Detalle() {
                     <BotonRegistrar onClick={redirecToReparaciones} tipoAccion={"Volver a reparaciones"}/>
                 </div>
                 <div className="flex gap-6">
-                    <div className="bg-white rounded-xl w-[300px] p-6 space-y-2 shadow-md">
+                    <div className="bg-white rounded-xl w-[350px] p-6 space-y-2 shadow-md">
                         <h3 className="font-semibold uppercase text-gray-900">Vehiculo</h3>
                         <div className="flex gap-8">
                             <div className="space-y-2 text-gray-800">
@@ -65,7 +65,7 @@ export default function Detalle() {
                             </div>
                         </div>
                     </div>
-                    <div className="bg-white rounded-xl w-[300px] p-6 space-y-2 shadow-md">
+                    <div className="bg-white rounded-xl w-[350px] p-6 space-y-2 shadow-md">
                         <h3 className="font-semibold uppercase text-gray-900">Reparación</h3>
                         <div className="flex gap-8">
                             <div className="space-y-2 text-sm font-medium text-gray-800">

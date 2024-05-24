@@ -1,6 +1,5 @@
-import { React, useState, useEffect } from "react";
+import { React, useState } from "react";
 import reporteService from "../services/reporte.service";
-import reparaciones from "../data/reparacionesData";
 import BotonNuevo from './BotonNuevo';
 
 export default function ReporteComparativa() {
@@ -12,19 +11,13 @@ export default function ReporteComparativa() {
         e.preventDefault();
 
         try {
-            const tipo_reparaciones = reparaciones.map(reparacion => reparacion.tipo_reparacion);
-
-            const response = await reporteService.reporteComparativo(tipo_reparaciones, mes);
+            const response = await reporteService.reporteComparativo(mes);
             setReporteComparativa(response.data);
             console.log(response.data);
         } catch (error) {
             console.error("Error al obtener el reporte: ", error);
         }
     }
-
-    /* useEffect(() => {
-        manejarReporteComparativa();
-    }, []) */
 
     return (
         <div className="flex h-4/5 mx-10 my-6">   

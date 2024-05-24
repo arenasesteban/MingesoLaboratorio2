@@ -10,6 +10,7 @@ import ReporteResumen from './components/ReporteResumen';
 import Bonos from './components/Bonos';
 import VehiculosFormulario from './components/VehiculosFormulario';
 import ReparacionesFormulario from './components/ReparacionesFormulario';
+import ListaReparaciones from './components/ListaReparaciones';
 import ReparacionesEditar from './components/ReparacionesEditar';
 import BonosFormulario from './components/BonosFormulario';
 import Detalle from './components/Detalle';
@@ -31,6 +32,7 @@ export default function App() {
                             <Route path="/vehiculos/registro" element={<VehiculosFormulario />}></Route>
                             <Route path="/reparaciones" element={<Reparaciones />}></Route>
                             <Route path="/reparaciones/registrar" element={<ReparacionesFormulario />}></Route>
+                            <Route path="/reparaciones/lista-reparaciones" element={<ListaReparaciones />}></Route>
                             <Route path="/reparaciones/editar/:id_registro" element={<ReparacionesEditar />}></Route>
                             <Route path="/reparaciones/detalle/:id_registro" element={<Detalle />}></Route>
                             <Route path="/reporte/comparativa" element={<ReporteComparativa />}></Route>

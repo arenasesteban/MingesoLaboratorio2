@@ -6,6 +6,10 @@ function crearRegistro(registro) {
     return axios.post(REGISTRO_API_URL, registro);
 }
 
+function crearDetalles(detalles) {
+    return axios.post(REGISTRO_API_URL + "detalle", detalles);
+}
+
 function obtenerRegistros() {
     return axios.get(REGISTRO_API_URL);
 }
@@ -26,4 +30,4 @@ function actualizarRegistro(registro) {
     return axios.put(REGISTRO_API_URL, registro);
 }
 
-export default { crearRegistro, obtenerRegistros, calcularTotal, obtenerRegistro, actualizarRegistro };
+export default { crearRegistro, crearDetalles, obtenerRegistros, calcularTotal, obtenerRegistro, actualizarRegistro };

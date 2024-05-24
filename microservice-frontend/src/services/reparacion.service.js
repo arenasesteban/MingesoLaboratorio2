@@ -2,8 +2,12 @@ import axios from "axios";
 
 const REPARACION_API_URL = "http://localhost:8080/reparacion/";
 
-function crearReparacion(reparaciones) {
+function crearReparaciones(reparaciones) {
     return axios.post(REPARACION_API_URL, reparaciones);
 }
 
-export default { crearReparacion };
+function obtenerReparaciones() {
+    return axios.get(REPARACION_API_URL);
+}
+
+export default { crearReparaciones, obtenerReparaciones };

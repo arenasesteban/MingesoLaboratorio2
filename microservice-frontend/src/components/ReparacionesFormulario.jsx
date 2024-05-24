@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import vehiculoService from "../services/vehiculo.service";
-import reparaciones from "../data/reparacionesData";
 import BotonRegistrar from "./BotonRegistrar";
 import registroService from "../services/registro.service";
 import reparacionService from "../services/reparacion.service";
@@ -9,21 +8,24 @@ import { useNavigate } from "react-router-dom";
 export default function ReparacionesFormulario() {
     const [vehiculos, setVehiculos] = useState([]);
 
-    async function buscarVehiculos() {
+    const [reparaciones_disponibles, setReparacionesDisponibles] = useState([]);
+    const [reparaciones_seleccionadas, setReparacionesSeleccionadas] = useState([]);
+
+    async function buscarInformacion() {
         try {
-            const response = await vehiculoService.obtenerVehiculos();
-            setVehiculos(response.data);
+            const response_vehiculo = await vehiculoService.obtenerVehiculos();
+            setVehiculos(response_vehiculo.data);
+
+            const response_reparacion = await reparacionService.obtenerReparaciones();
+            setReparacionesDisponibles(response_reparacion.data);
         } catch (error) {
             console.error('Error al obtener los vehículos:', error);
         }
     }
 
     useEffect(() => {
-        buscarVehiculos();
+        buscarInformacion();
     }, [])
-
-    const [reparaciones_disponibles, setReparacionesDisponibles] = useState(reparaciones);
-    const [reparaciones_seleccionadas, setReparacionesSeleccionadas] = useState([]);
 
     const manejarSeleccionarReparacion = (index) => {
         setReparacionesSeleccionadas([...reparaciones_seleccionadas, reparaciones_disponibles[index]].sort((a, b) => a.numero - b.numero));
@@ -60,16 +62,16 @@ export default function ReparacionesFormulario() {
         for(const reparacion of reparaciones) {
             switch (motor) {
                 case "Gasolina":
-                    monto_reparaciones += reparacion.gasolina;
+                    monto_reparaciones += reparacion.precio_gasolina;
                     break;
                 case "Diesel":
-                    monto_reparaciones += reparacion.diesel;
+                    monto_reparaciones += reparacion.precio_diesel;
                     break;
                 case "Híbrido":
-                    monto_reparaciones += reparacion.hibrido;
+                    monto_reparaciones += reparacion.precio_hibrido;
                     break;
                 case "Eléctrico":
-                    monto_reparaciones += reparacion.electrico;
+                    monto_reparaciones += reparacion.precio_electrico;
                     break;
             }
         }
@@ -77,28 +79,27 @@ export default function ReparacionesFormulario() {
         return monto_reparaciones;
     }
 
-    const crearReparaciones = (reparaciones, motor, fecha_reparacion, hora_reparacion, id_registro, patente) => {
+    const crearDetalle = (reparaciones, motor, fecha_reparacion, hora_reparacion, id_registro, patente) => {
         const reparaciones_aux = []
         let monto_reparacion = 0;
 
         for(const reparacion of reparaciones) {
             switch (motor) {
                 case "Gasolina":
-                    monto_reparacion = reparacion.gasolina;
+                    monto_reparacion = reparacion.precio_gasolina;
                     break;
                 case "Diesel":
-                    monto_reparacion = reparacion.diesel;
+                    monto_reparacion = reparacion.precio_diesel;
                     break;
                 case "Híbrido":
-                    monto_reparacion = reparacion.hibrido;
+                    monto_reparacion = reparacion.precio_hibrido;
                     break;
                 case "Eléctrico":
-                    monto_reparacion = reparacion.electrico;
+                    monto_reparacion = reparacion.precio_electrico;
                     break;
             }
 
             const reparacion_objeto = {
-                numero_reparacion: reparacion.numero_reparacion,
                 tipo_reparacion: reparacion.tipo_reparacion,
                 fecha_reparacion,
                 hora_reparacion,
@@ -117,24 +118,24 @@ export default function ReparacionesFormulario() {
         e.preventDefault();
 
         try {
+            console.log("SELECCIONADAS: ", reparaciones_seleccionadas);
             const monto_reparaciones = calcularMontoReparaciones(reparaciones_seleccionadas, motor);
-            console.log(monto_reparaciones);
+            console.log("Monto reparacion: ", monto_reparaciones);
 
-            const response_registro = await registroService.crearRegistro({
+            const response_registro_1 = await registroService.crearRegistro({
                 fecha_ingreso,
                 hora_ingreso,
                 monto_reparaciones,
                 patente
             });
-            console.log("Response - Crear registro: ", response_registro.data);
+            console.log("Response - Crear registro: ", response_registro_1.data);
+
+            const detalles = crearDetalle(reparaciones_seleccionadas, motor, fecha_ingreso, hora_ingreso, response_registro_1.data.id_registro, patente);
+            const response_registro_2 = await registroService.crearDetalles(detalles);
+            console.log(response_registro_2.data);
 
             const response_vehiculo = await vehiculoService.actualizarVehiculo(patente, kilometraje);
             console.log("Response - Actualizar vehiculo", response_vehiculo.data);
-
-            const reparaciones_aux = crearReparaciones(reparaciones_seleccionadas, motor, fecha_ingreso, hora_ingreso, response_registro.data.id_registro, patente);
-
-            const response_reparacion = await reparacionService.crearReparacion(reparaciones_aux);
-            console.log("Response - Crear reparación", response_reparacion.data);
 
             alert("Éxito");
             navigate("/reparaciones");
@@ -185,7 +186,7 @@ export default function ReparacionesFormulario() {
                                     {
                                         reparaciones_disponibles.map((reparacion, index) => (
                                             <option key={index} value={index}>
-                                                {reparacion.numero_reparacion} - {reparacion.tipo_reparacion}
+                                                {reparacion.id_reparacion} - {reparacion.tipo_reparacion}
                                             </option>
                                         ))    
                                     }
@@ -198,7 +199,7 @@ export default function ReparacionesFormulario() {
                                     {
                                         reparaciones_seleccionadas.map((reparacion, index) => (
                                             <option key={index} value={index}>
-                                                {reparacion.numero_reparacion} - {reparacion.tipo_reparacion}
+                                                {reparacion.id_reparacion} - {reparacion.tipo_reparacion}
                                             </option>
                                         ))
                                     }
