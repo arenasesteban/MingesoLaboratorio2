@@ -2,11 +2,13 @@ package com.autofix.microserviceregistry.services;
 
 import com.autofix.microserviceregistry.clients.ReparacionFeignClient;
 import com.autofix.microserviceregistry.clients.VehiculoFeignClient;
-import com.autofix.microserviceregistry.dtos.CantidadMonto;
+import com.autofix.microserviceregistry.dtos.CantidadMontoInterfaz;
 import com.autofix.microserviceregistry.dtos.ReparacionMeses;
 import com.autofix.microserviceregistry.dtos.ReparacionTipoVehiculo;
 import com.autofix.microserviceregistry.dtos.Vehiculo;
+import com.autofix.microserviceregistry.entities.Detalle;
 import com.autofix.microserviceregistry.entities.Registro;
+import com.autofix.microserviceregistry.repositories.DetalleRepository;
 import com.autofix.microserviceregistry.repositories.RegistroRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,13 +23,23 @@ public class RegistroService {
     RegistroRepository registroRepository;
 
     @Autowired
+    DetalleRepository detalleRepository;
+
+    @Autowired
     VehiculoFeignClient vehiculoFeignClient;
 
     @Autowired
     ReparacionFeignClient reparacionFeignClient;
 
-    public Registro crearRegistro(Registro registro) {
-        return registroRepository.save(registro);
+    public Registro crearRegistro(Registro registro, List<Detalle> detalles) {
+        Registro registro_1 = registroRepository.save(registro);
+
+        for(Detalle detalle : detalles) {
+            registro_1.setId_registro(registro_1.getId_registro());
+        }
+        detalleRepository.saveAll(detalles);
+
+        return registro_1;
     }
 
     public List<Registro> obtenerRegistros() {
@@ -103,7 +115,7 @@ public class RegistroService {
 
     public int contarReparaciones(String patente, Long id_registro) {
         List<Long> id_registros = registroRepository.buscarPorPatenteYMenorAId_registro(patente, id_registro);
-        return reparacionFeignClient.obtenerCantidadReparaciones(id_registros);
+        return detalleRepository.contarDetallePorId_registro(id_registros);
     }
 
     public double descuentoPorDiaAtencion(LocalDate fecha_ingreso, LocalTime hora_ingreso) {
@@ -186,55 +198,104 @@ public class RegistroService {
         return retraso * .05;
     }
 
-    public ReparacionTipoVehiculo reporteReparacionTipoVehiculo(String tipo_reparacion, Integer mes, Integer ano) {
-        List<String> patentes = reparacionFeignClient.obtenerPatentesPorTipoReparacion(tipo_reparacion, mes, ano);
-        ReparacionTipoVehiculo reparacionTipoVehiculo = new ReparacionTipoVehiculo();
+    public Integer obtenerMontoPorPatenteYTipoReparacion(List<String> patentes, String tipo_reparacion, Integer mes, Integer ano) {
+        Integer monto = detalleRepository.sumarPorPatenteYTipoReparacion(patentes, tipo_reparacion, mes, ano);
 
-        reparacionTipoVehiculo.setCantidad_sedan(vehiculoFeignClient.obtenerCantidadVehiculosPorTipoVehiculo(patentes, "Sedan"));
-        List<String> patenes_sedan = vehiculoFeignClient.obtenerPatentesPorTipoVehiculo(patentes, "Sedan");
-        reparacionTipoVehiculo.setMonto_sedan(reparacionFeignClient.obtenerMontoPorPatenteYTipoReparacion(patenes_sedan, tipo_reparacion, mes, ano));
+        if(monto == null) {
+            monto = 0;
+        }
 
-        reparacionTipoVehiculo.setCantidad_hatchback(vehiculoFeignClient.obtenerCantidadVehiculosPorTipoVehiculo(patentes, "Hatchback"));
-        List<String> patentes_hatchback = vehiculoFeignClient.obtenerPatentesPorTipoVehiculo(patentes, "Hatchback");
-        reparacionTipoVehiculo.setMonto_hatchback(reparacionFeignClient.obtenerMontoPorPatenteYTipoReparacion(patentes_hatchback, tipo_reparacion, mes, ano));
-
-        reparacionTipoVehiculo.setCantidad_suv(vehiculoFeignClient.obtenerCantidadVehiculosPorTipoVehiculo(patentes, "SUV"));
-        List<String> patentes_suv = vehiculoFeignClient.obtenerPatentesPorTipoVehiculo(patentes, "SUV");
-        reparacionTipoVehiculo.setMonto_suv(reparacionFeignClient.obtenerMontoPorPatenteYTipoReparacion(patentes_suv, tipo_reparacion, mes, ano));
-
-        reparacionTipoVehiculo.setCantidad_pickup(vehiculoFeignClient.obtenerCantidadVehiculosPorTipoVehiculo(patentes, "Pickup"));
-        List<String> patentes_pickup = vehiculoFeignClient.obtenerPatentesPorTipoVehiculo(patentes, "Pickup");
-        reparacionTipoVehiculo.setMonto_pickup(reparacionFeignClient.obtenerMontoPorPatenteYTipoReparacion(patentes_pickup, tipo_reparacion, mes, ano));
-
-        reparacionTipoVehiculo.setCantidad_furgoneta(vehiculoFeignClient.obtenerCantidadVehiculosPorTipoVehiculo(patentes, "Furgoneta"));
-        List<String> patentes_furgoneta = vehiculoFeignClient.obtenerPatentesPorTipoVehiculo(patentes, "Furgoneta");
-        reparacionTipoVehiculo.setMonto_furgoneta(reparacionFeignClient.obtenerMontoPorPatenteYTipoReparacion(patentes_furgoneta, tipo_reparacion, mes, ano));
-
-        return reparacionTipoVehiculo;
+        return monto;
     }
 
-    public ReparacionMeses reporteReparacionMeses(String tipo_reparacion, Integer mes) {
-        ReparacionMeses reparacionMeses = new ReparacionMeses();
+    public CantidadMontoInterfaz calcularCantidadYMontoReparacionPorMes(String tipo_reparacion, Integer mes) {
+        CantidadMontoInterfaz cantidad_monto = detalleRepository.contarDetallePorTipoReparacionYMes(tipo_reparacion, mes);
 
-        int primer_mes = reparacionMeses.calcularMesAnterior(mes, 1);
-        CantidadMonto cantidad_monto_1 = reparacionFeignClient.calcularCantidadYMontoReparacionPorMes(tipo_reparacion, primer_mes);
-        reparacionMeses.setPrimer_mes(reparacionMeses.obtenerMes(primer_mes));
-        reparacionMeses.setCantidad_primer_mes(cantidad_monto_1.getCantidad());
-        reparacionMeses.setMonto_primer_mes(cantidad_monto_1.getMonto());
+        if (cantidad_monto.getCantidad() == 0) {
+            return new CantidadMontoInterfaz() {
+                @Override
+                public Integer getCantidad() {
+                    return 0;
+                }
 
-        int segundo_mes = reparacionMeses.calcularMesAnterior(mes, 2);
-        CantidadMonto cantidad_monto_2 = reparacionFeignClient.calcularCantidadYMontoReparacionPorMes(tipo_reparacion, segundo_mes);
-        reparacionMeses.setSegundo_mes(reparacionMeses.obtenerMes(segundo_mes));
-        reparacionMeses.setCantidad_segundo_mes(cantidad_monto_2.getCantidad());
-        reparacionMeses.setMonto_segundo_mes(cantidad_monto_2.getMonto());
+                @Override
+                public Integer getMonto() {
+                    return 0;
+                }
+            };
+        }
 
-        int tercer_mes = reparacionMeses.calcularMesAnterior(mes, 3);
-        CantidadMonto cantidad_monto_3 = reparacionFeignClient.calcularCantidadYMontoReparacionPorMes(tipo_reparacion, tercer_mes);
-        reparacionMeses.setTercer_mes(reparacionMeses.obtenerMes(tercer_mes));
-        reparacionMeses.setCantidad_tercer_mes(cantidad_monto_3.getCantidad());
-        reparacionMeses.setMonto_tercer_mes(cantidad_monto_3.getMonto());
+        return cantidad_monto;
+    }
 
-        return reparacionMeses;
+    public List<ReparacionTipoVehiculo> reporteReparacionTipoVehiculo(Integer mes, Integer ano) {
+        List<String> tipo_reparaciones = reparacionFeignClient.obtenerTipoReparaciones();
+        List<ReparacionTipoVehiculo> reparacionesTipoVehiculo = new ArrayList<>();
+
+        for(String tipo_reparacion : tipo_reparaciones) {
+            ReparacionTipoVehiculo reparacionTipoVehiculo = new ReparacionTipoVehiculo();
+
+            reparacionTipoVehiculo.setTipo_reparacion(tipo_reparacion);
+
+            List<String> patentes = detalleRepository.encontrarPatentesPorTipoReparacion(tipo_reparacion, mes, ano);
+
+            reparacionTipoVehiculo.setCantidad_sedan(vehiculoFeignClient.obtenerCantidadVehiculosPorTipoVehiculo(patentes, "Sedan"));
+            List<String> patenes_sedan = vehiculoFeignClient.obtenerPatentesPorTipoVehiculo(patentes, "Sedan");
+            reparacionTipoVehiculo.setMonto_sedan(obtenerMontoPorPatenteYTipoReparacion(patenes_sedan, tipo_reparacion, mes, ano));
+
+            reparacionTipoVehiculo.setCantidad_hatchback(vehiculoFeignClient.obtenerCantidadVehiculosPorTipoVehiculo(patentes, "Hatchback"));
+            List<String> patentes_hatchback = vehiculoFeignClient.obtenerPatentesPorTipoVehiculo(patentes, "Hatchback");
+            reparacionTipoVehiculo.setMonto_hatchback(obtenerMontoPorPatenteYTipoReparacion(patentes_hatchback, tipo_reparacion, mes, ano));
+
+            reparacionTipoVehiculo.setCantidad_suv(vehiculoFeignClient.obtenerCantidadVehiculosPorTipoVehiculo(patentes, "SUV"));
+            List<String> patentes_suv = vehiculoFeignClient.obtenerPatentesPorTipoVehiculo(patentes, "SUV");
+            reparacionTipoVehiculo.setMonto_suv(obtenerMontoPorPatenteYTipoReparacion(patentes_suv, tipo_reparacion, mes, ano));
+
+            reparacionTipoVehiculo.setCantidad_pickup(vehiculoFeignClient.obtenerCantidadVehiculosPorTipoVehiculo(patentes, "Pickup"));
+            List<String> patentes_pickup = vehiculoFeignClient.obtenerPatentesPorTipoVehiculo(patentes, "Pickup");
+            reparacionTipoVehiculo.setMonto_pickup(obtenerMontoPorPatenteYTipoReparacion(patentes_pickup, tipo_reparacion, mes, ano));
+
+            reparacionTipoVehiculo.setCantidad_furgoneta(vehiculoFeignClient.obtenerCantidadVehiculosPorTipoVehiculo(patentes, "Furgoneta"));
+            List<String> patentes_furgoneta = vehiculoFeignClient.obtenerPatentesPorTipoVehiculo(patentes, "Furgoneta");
+            reparacionTipoVehiculo.setMonto_furgoneta(obtenerMontoPorPatenteYTipoReparacion(patentes_furgoneta, tipo_reparacion, mes, ano));
+
+            reparacionesTipoVehiculo.add(reparacionTipoVehiculo);
+        }
+
+        return reparacionesTipoVehiculo;
+    }
+
+    public List<ReparacionMeses> reporteReparacionMeses(Integer mes) {
+        List<String> tipo_reparaciones = reparacionFeignClient.obtenerTipoReparaciones();
+        List<ReparacionMeses> reparacionesMeses = new ArrayList<>();
+
+        for(String tipo_reparacion : tipo_reparaciones) {
+            ReparacionMeses reparacionMeses = new ReparacionMeses();
+
+            reparacionMeses.setTipo_reparacion(tipo_reparacion);
+
+            int primer_mes = reparacionMeses.calcularMesAnterior(mes, 1);
+            CantidadMontoInterfaz cantidad_monto_1 = calcularCantidadYMontoReparacionPorMes(tipo_reparacion, primer_mes);
+            reparacionMeses.setPrimer_mes(reparacionMeses.obtenerMes(primer_mes));
+            reparacionMeses.setCantidad_primer_mes(cantidad_monto_1.getCantidad());
+            reparacionMeses.setMonto_primer_mes(cantidad_monto_1.getMonto());
+
+            int segundo_mes = reparacionMeses.calcularMesAnterior(mes, 2);
+            CantidadMontoInterfaz cantidad_monto_2 = calcularCantidadYMontoReparacionPorMes(tipo_reparacion, segundo_mes);
+            reparacionMeses.setSegundo_mes(reparacionMeses.obtenerMes(segundo_mes));
+            reparacionMeses.setCantidad_segundo_mes(cantidad_monto_2.getCantidad());
+            reparacionMeses.setMonto_segundo_mes(cantidad_monto_2.getMonto());
+
+            int tercer_mes = reparacionMeses.calcularMesAnterior(mes, 3);
+            CantidadMontoInterfaz cantidad_monto_3 = calcularCantidadYMontoReparacionPorMes(tipo_reparacion, tercer_mes);
+            reparacionMeses.setTercer_mes(reparacionMeses.obtenerMes(tercer_mes));
+            reparacionMeses.setCantidad_tercer_mes(cantidad_monto_3.getCantidad());
+            reparacionMeses.setMonto_tercer_mes(cantidad_monto_3.getMonto());
+
+            reparacionesMeses.add(reparacionMeses);
+        }
+
+        return reparacionesMeses;
     }
 
     public Registro actualizarRegistro(Registro registro) {

@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReparacionTipoVehiculo {
+    private String tipo_reparacion;
+
     private Integer cantidad_sedan;
     private Integer monto_sedan;
 

@@ -2,9 +2,9 @@ package com.autofix.microserviceregistry.controllers;
 
 import com.autofix.microserviceregistry.dtos.ReparacionMeses;
 import com.autofix.microserviceregistry.dtos.ReparacionTipoVehiculo;
+import com.autofix.microserviceregistry.entities.Detalle;
 import com.autofix.microserviceregistry.entities.Registro;
 import com.autofix.microserviceregistry.services.RegistroService;
-import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,8 +19,8 @@ public class RegistroController {
     RegistroService registroService;
 
     @PostMapping("/")
-    public ResponseEntity<Registro> crearRegistro(@RequestBody Registro registro) {
-        Registro registro_1 = registroService.crearRegistro(registro);
+    public ResponseEntity<Registro> crearRegistro(@RequestBody Registro registro, @RequestBody List<Detalle> detalles) {
+        Registro registro_1 = registroService.crearRegistro(registro, detalles);
         return ResponseEntity.ok(registro_1);
     }
 
@@ -43,15 +43,15 @@ public class RegistroController {
     }
 
     @GetMapping("/reparacion-tipo-vehiculo")
-    public ResponseEntity<ReparacionTipoVehiculo> reporteReparacionTipoVehiculo(@RequestParam String tipo_reparacion, @RequestParam Integer mes, @RequestParam Integer ano) {
-        ReparacionTipoVehiculo reparacionTipoVehiculo = registroService.reporteReparacionTipoVehiculo(tipo_reparacion, mes, ano);
-        return ResponseEntity.ok(reparacionTipoVehiculo);
+    public ResponseEntity<List<ReparacionTipoVehiculo>> reporteReparacionTipoVehiculo(@RequestParam Integer mes, @RequestParam Integer ano) {
+        List<ReparacionTipoVehiculo> reparacionesTipoVehiculo = registroService.reporteReparacionTipoVehiculo(mes, ano);
+        return ResponseEntity.ok(reparacionesTipoVehiculo);
     }
 
     @GetMapping("/reparacion-meses")
-    public ResponseEntity<ReparacionMeses> reporteReparacionMeses(@RequestParam String tipo_reparacion, @RequestParam Integer mes) {
-        ReparacionMeses reparacionMeses = registroService.reporteReparacionMeses(tipo_reparacion, mes);
-        return ResponseEntity.ok(reparacionMeses);
+    public ResponseEntity<List<ReparacionMeses>> reporteReparacionMeses(@RequestParam Integer mes) {
+        List<ReparacionMeses> reparacionesMeses = registroService.reporteReparacionMeses(mes);
+        return ResponseEntity.ok(reparacionesMeses);
     }
 
     @PutMapping("/")

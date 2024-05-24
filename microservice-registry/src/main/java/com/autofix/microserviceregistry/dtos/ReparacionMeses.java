@@ -10,6 +10,8 @@ import java.time.Month;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReparacionMeses {
+    private String tipo_reparacion;
+
     private String primer_mes;
     private Integer cantidad_primer_mes;
     private Integer monto_primer_mes;
