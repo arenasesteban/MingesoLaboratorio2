@@ -14,14 +14,10 @@ public class ReporteService {
     @Autowired
     RegistroFeignClient registroFeignClient;
 
-    public List<ResumenReparacion> reporteResumenReparaciones(List<String> tipo_reparaciones, Integer mes, Integer ano) {
-        List<ResumenReparacion> resumenReparaciones = new ArrayList<>();
+    public List<ResumenReparacion> reporteResumenReparaciones(Integer mes, Integer ano) {
+        List<ResumenReparacion> resumenReparaciones = registroFeignClient.reporteReparacionTipoVehiculo(mes , ano);
 
-        for(String tipo_reparacion : tipo_reparaciones) {
-            ResumenReparacion resumenReparacion = registroFeignClient.reporteReparacionTipoVehiculo(tipo_reparacion, mes , ano);
-
-            resumenReparacion.setTipo_reparacion(tipo_reparacion);
-
+        for(ResumenReparacion resumenReparacion : resumenReparaciones) {
             resumenReparacion.setCantidad_total(resumenReparacion.getCantidad_sedan() +
                     resumenReparacion.getCantidad_hatchback() +
                     resumenReparacion.getCantidad_suv() +
@@ -33,21 +29,15 @@ public class ReporteService {
                     resumenReparacion.getMonto_suv() +
                     resumenReparacion.getMonto_pickup() +
                     resumenReparacion.getMonto_furgoneta());
-
-            resumenReparaciones.add(resumenReparacion);
         }
 
         return resumenReparaciones;
     }
 
-    public List<ComparativoReparacion> reporteComparativoReparaciones(List<String> tipo_reparaciones, Integer mes) {
-        List<ComparativoReparacion> comparativoReparaciones = new ArrayList<>();
+    public List<ComparativoReparacion> reporteComparativoReparaciones(Integer mes) {
+        List<ComparativoReparacion> comparativoReparaciones = registroFeignClient.reporteReparacionMeses(mes);
 
-        for(String tipo_reparacion : tipo_reparaciones) {
-            ComparativoReparacion comparativoReparacion = registroFeignClient.reporteReparacionMeses(tipo_reparacion, mes);
-
-            comparativoReparacion.setTipo_reparacion(tipo_reparacion);
-
+        for(ComparativoReparacion comparativoReparacion : comparativoReparaciones) {
             if(comparativoReparacion.getCantidad_segundo_mes() != 0) {
                 comparativoReparacion.setPrimera_variacion_cantidad((double) (((comparativoReparacion.getCantidad_primer_mes()
                                         - comparativoReparacion.getCantidad_segundo_mes())
@@ -71,8 +61,6 @@ public class ReporteService {
                                         - comparativoReparacion.getMonto_tercer_mes())
                                         / comparativoReparacion.getMonto_tercer_mes()) * 100));
             }
-
-            comparativoReparaciones.add(comparativoReparacion);
         }
 
         return comparativoReparaciones;

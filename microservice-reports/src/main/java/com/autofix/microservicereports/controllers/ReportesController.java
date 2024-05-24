@@ -16,14 +16,14 @@ public class ReportesController {
     ReporteService reporteService;
 
     @GetMapping("/resumen-reparaciones")
-    public ResponseEntity<List<ResumenReparacion>> reporteResumenReparaciones(@RequestParam List<String> tipo_reparaciones, @RequestParam Integer mes, @RequestParam Integer ano) {
-        List<ResumenReparacion> reporte = reporteService.reporteResumenReparaciones(tipo_reparaciones, mes, ano);
+    public ResponseEntity<List<ResumenReparacion>> reporteResumenReparaciones(@RequestParam Integer mes, @RequestParam Integer ano) {
+        List<ResumenReparacion> reporte = reporteService.reporteResumenReparaciones(mes, ano);
         return ResponseEntity.ok(reporte);
     }
 
     @GetMapping("/comparativo-reparaciones")
-    public ResponseEntity<List<ComparativoReparacion>> reporteComparativoReparaciones(@RequestParam List<String> tipo_reparaciones, @RequestParam Integer mes) {
-        List<ComparativoReparacion> reporte = reporteService.reporteComparativoReparaciones(tipo_reparaciones, mes);
+    public ResponseEntity<List<ComparativoReparacion>> reporteComparativoReparaciones(@RequestParam Integer mes) {
+        List<ComparativoReparacion> reporte = reporteService.reporteComparativoReparaciones(mes);
         return ResponseEntity.ok(reporte);
     }
 }

@@ -8,14 +8,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.Month;
+import java.util.List;
 
 @FeignClient(value = "microservice-registry",
         url = "http://localhost:8082/registro",
         configuration = {FeignClientConfig.class})
 public interface RegistroFeignClient {
     @GetMapping("/reparacion-tipo-vehiculo")
-    ResumenReparacion reporteReparacionTipoVehiculo(@RequestParam String tipo_reparacion, @RequestParam Integer mes, @RequestParam Integer ano);
+    List<ResumenReparacion> reporteReparacionTipoVehiculo(@RequestParam Integer mes, @RequestParam Integer ano);
 
     @GetMapping("/reparacion-meses")
-    ComparativoReparacion reporteReparacionMeses(@RequestParam String tipo_reparacion, @RequestParam Integer mes);
+    List<ComparativoReparacion> reporteReparacionMeses(@RequestParam Integer mes);
 }
