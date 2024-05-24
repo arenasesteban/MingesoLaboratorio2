@@ -19,9 +19,15 @@ public class RegistroController {
     RegistroService registroService;
 
     @PostMapping("/")
-    public ResponseEntity<Registro> crearRegistro(@RequestBody Registro registro, @RequestBody List<Detalle> detalles) {
-        Registro registro_1 = registroService.crearRegistro(registro, detalles);
+    public ResponseEntity<Registro> crearRegistro(@RequestBody Registro registro) {
+        Registro registro_1 = registroService.crearRegistro(registro);
         return ResponseEntity.ok(registro_1);
+    }
+
+    @PostMapping("/detalle")
+    public ResponseEntity<List<Detalle>> crearRegistro(@RequestBody List<Detalle> detalles) {
+        List<Detalle> detalles_1 = registroService.crearDetalles(detalles);
+        return ResponseEntity.ok(detalles_1);
     }
 
     @GetMapping("/")

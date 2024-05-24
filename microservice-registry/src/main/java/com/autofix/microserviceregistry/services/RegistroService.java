@@ -31,15 +31,12 @@ public class RegistroService {
     @Autowired
     ReparacionFeignClient reparacionFeignClient;
 
-    public Registro crearRegistro(Registro registro, List<Detalle> detalles) {
-        Registro registro_1 = registroRepository.save(registro);
+    public Registro crearRegistro(Registro registro) {
+        return registroRepository.save(registro);
+    }
 
-        for(Detalle detalle : detalles) {
-            registro_1.setId_registro(registro_1.getId_registro());
-        }
-        detalleRepository.saveAll(detalles);
-
-        return registro_1;
+    public List<Detalle> crearDetalles(List<Detalle> detalles) {
+        return detalleRepository.saveAll(detalles);
     }
 
     public List<Registro> obtenerRegistros() {
