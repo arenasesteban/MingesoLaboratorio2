@@ -1,8 +1,6 @@
 server:
   port: 8080
 eureka:
-  instance:
-    hostname: localhost
   client:
     fetch-registry: true
     register-with-eureka: true
@@ -14,6 +12,8 @@ spring:
       discovery:
         locator:
           enable: true
+        default-filters:
+          - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_UNIQUE
       globalcors:
         cors-configurations:
           '[/**]':
@@ -22,18 +22,18 @@ spring:
             allowedHeaders: "*"
       routes:
         - id: microservice-vehicle
-          uri: lb://microservice-vehicle:8081
+          uri: lb://microservice-vehicle
           predicates:
             - Path=/vehiculo/**
         - id: microservice-registry
-          uri: lb://microservice-registry:8082
+          uri: lb://microservice-registry
           predicates:
             - Path=/registro/**
         - id: microservice-repair
-          uri: lb://microservice-repair:8083
+          uri: lb://microservice-repair
           predicates:
             - Path=/reparacion/**
         - id: microservice-reports
-          uri: lb://microservice-reports:8084
+          uri: lb://microservice-reports
           predicates:
             - Path=/reporte/**
