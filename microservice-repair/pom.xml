@@ -78,6 +78,6 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<finalName>microservice-repair</finalName>
 	</build>
-
 </project>

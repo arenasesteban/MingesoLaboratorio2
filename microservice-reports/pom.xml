@@ -73,6 +73,6 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<finalName>microservice-reports</finalName>
 	</build>
-
 </project>

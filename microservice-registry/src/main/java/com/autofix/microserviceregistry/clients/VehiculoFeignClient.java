@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
 @FeignClient(value = "microservice-vehicle",
-        url = "http://localhost:8081/vehiculo",
+        path = "/vehiculo",
         configuration = {FeignClientConfig.class})
 public interface VehiculoFeignClient {
     @GetMapping("/patente")

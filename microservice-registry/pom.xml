@@ -83,6 +83,6 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<finalName>microservice-registry</finalName>
 	</build>
-
 </project>

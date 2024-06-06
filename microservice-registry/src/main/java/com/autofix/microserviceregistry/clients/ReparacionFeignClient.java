@@ -11,7 +11,7 @@ import java.time.Month;
 import java.util.List;
 
 @FeignClient(value = "microservice-repair",
-        url = "http://localhost:8083/reparacion",
+        path = "/reparacion",
         configuration = {FeignClientConfig.class})
 public interface ReparacionFeignClient {
     @GetMapping("/tipo-reparaciones")

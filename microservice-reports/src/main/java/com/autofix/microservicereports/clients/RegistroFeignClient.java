@@ -11,7 +11,7 @@ import java.time.Month;
 import java.util.List;
 
 @FeignClient(value = "microservice-registry",
-        url = "http://localhost:8082/registro",
+        path = "/registro",
         configuration = {FeignClientConfig.class})
 public interface RegistroFeignClient {
     @GetMapping("/reparacion-tipo-vehiculo")
