@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: microservice-vehicle-deployment
+  labels:
+    app: microservice-vehicle-deployment
+spec:
+  selector:
+    matchLabels:
+      app: microservice-vehicle-deployment
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: microservice-vehicle-deployment
+    spec:
+      containers:
+        - name: microservice-vehicle
+          image: arenasesteban/microservice-vehicle
+          ports:
+            - containerPort: 8091
+          env:
+            - name: SERVER_PORT
+              value: "0"
+            - name: DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-config-map
+                  key: DB_HOST_VEHICLE
+            - name: DB_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-config-map
+                  key: DB_PORT_VEHICLE
+            - name: DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-config-map
+                  key: DB_NAME_VEHICLE
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: DB_USER_VEHICLE
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: DB_PASSWORD_VEHICLE

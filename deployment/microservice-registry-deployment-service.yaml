@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: microservice-registry-deployment
+  labels:
+    app: microservice-registry-deployment
+spec:
+  selector:
+    matchLabels:
+      app: microservice-registry-deployment
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: microservice-registry-deployment
+    spec:
+      containers:
+        - name: microservice-registry
+          image: arenasesteban/microservice-registry
+          ports:
+            - containerPort: 8092
+          env:
+            - name: SERVER_PORT
+              value: "0"
+            - name: DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-config-map
+                  key: DB_HOST_REGISTRY
+            - name: DB_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-config-map
+                  key: DB_PORT_REGISTRY
+            - name: DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-config-map
+                  key: DB_NAME_REGISTRY
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: DB_USER_REGISTRY
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: DB_PASSWORD_REGISTRY

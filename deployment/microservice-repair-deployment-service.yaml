@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: microservice-repair-deployment
+  labels:
+    app: microservice-repair-deployment
+spec:
+  selector:
+    matchLabels:
+      app: microservice-repair-deployment
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: microservice-repair-deployment
+    spec:
+      containers:
+        - name: microservice-repair
+          image: arenasesteban/microservice-repair
+          ports:
+            - containerPort: 8093
+          env:
+            - name: SERVER_PORT
+              value: "0"
+            - name: DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-config-map
+                  key: DB_HOST_REPAIR
+            - name: DB_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-config-map
+                  key: DB_PORT_REPAIR
+            - name: DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-config-map
+                  key: DB_NAME_REPAIR
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: DB_USER_REPAIR
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: DB_PASSWORD_REPAIR
