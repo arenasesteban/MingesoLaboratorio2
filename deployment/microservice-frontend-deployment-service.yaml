@@ -18,7 +18,7 @@ spec:
         - name: microservice-frontend
           image: arenasesteban/microservice-frontend
           ports:
-            - containerPort: 3000c
+            - containerPort: 3000
 ---
 apiVersion: v1
 kind: Service
