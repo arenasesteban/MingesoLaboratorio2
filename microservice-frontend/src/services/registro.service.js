@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const REGISTRO_API_URL = "http://gateway-server-service:8080/";
+const REGISTRO_API_URL = "http://gateway-server-service:8080/registro";
 
 function crearRegistro(registro) {
     return axios.post(REGISTRO_API_URL, registro);
