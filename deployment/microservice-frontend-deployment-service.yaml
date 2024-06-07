@@ -18,7 +18,7 @@ spec:
         - name: microservice-frontend
           image: arenasesteban/microservice-frontend
           ports:
-            - containerPort: 3000
+            - containerPort: 3000c
 ---
 apiVersion: v1
 kind: Service
@@ -31,6 +31,6 @@ spec:
     app: microservice-frontend-deployment
   ports:
     - protocol: TCP
-      port: 80
+      port: 3000
       targetPort: 3000
   type: LoadBalancer
