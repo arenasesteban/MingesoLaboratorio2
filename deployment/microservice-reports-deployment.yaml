@@ -1,5 +1,3 @@
-apiVersion: apps/v1
-kind: Deployment
 metadata:
   name: microservice-reports-deployment
   labels:
@@ -19,3 +17,6 @@ spec:
           image: arenasesteban/microservice-reports
           ports:
             - containerPort: 8094
+          env:
+            - name: SERVER_PORT
+              value: "0"
