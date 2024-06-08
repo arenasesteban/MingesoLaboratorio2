@@ -75,7 +75,7 @@ export default function ReparacionesEditar() {
         }
     }
     return (
-        <div className="flex h-4/5 mx-10 my-6">   
+        <div className="flex h-4/    mx-10 my-6">   
             <div className="flex flex-col w-full">
                 <div className="flex justify-between items-end">
                     <div className="space-y-1">
@@ -84,8 +84,8 @@ export default function ReparacionesEditar() {
                     </div>
                 </div>
                 <div className="bg-white mt-6 p-6 overflow-auto shadow-lg shadow-gray-200 rounded-xl">
-                    <form>
-                        <div className="grid gap-4 grid-cols-2">
+                    <form className="space-y-4">
+                        <div className="grid gap-4 grid-cols-4">
                             <div>
                                 <label for="patente" class="block mb-2 font-medium text-gray-700">Patente</label>
                                 <input type="number" id="patente" class="bg-gray-50 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder={registro.patente} disabled />
@@ -102,6 +102,9 @@ export default function ReparacionesEditar() {
                                 <label for="hora_ingreso" class="block mb-2 font-medium text-gray-700">Hora ingreso</label>
                                 <input type="number" id="hora_ingreso" class="bg-gray-50 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder={registro.hora_ingreso} disabled />
                             </div>
+
+                        </div>
+                        <div className="grid gap-4 grid-cols-2">
                             <div>
                                 <label for="fecha_salida" class="block mb-2 font-medium text-gray-700">Fecha salida</label>
                                 <input type="date" id="fecha_salida" class="bg-gray-50 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="" onChange={e => setFechaSalida(e.target.value)} required />
@@ -132,7 +135,7 @@ export default function ReparacionesEditar() {
                                     }
                                 </select>
                             </div>
-                            <div className="col-span-2 flex items-end justify-end">
+                            <div className="flex items-end justify-end">
                                 <BotonRegistrar onClick={manejarCalcularTotal} tipoAccion="Calcular Total"/>
                             </div>
                         </div>
