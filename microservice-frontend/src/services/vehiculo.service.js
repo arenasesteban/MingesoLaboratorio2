@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const VEHICULO_API_URL = "http://gateway-server-service:8080/vehiculo/";
+const VEHICULO_API_URL = "http://localhost:[EXTERNAL_PORT]/vehiculo/";
 
 function registrarVehiculo(vehiculo) {
     return axios.post(VEHICULO_API_URL, vehiculo)

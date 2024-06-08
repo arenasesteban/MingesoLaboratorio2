@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const REPORTE_API_URL = "http://gateway-server-service:8080/reporte/";
+const REPORTE_API_URL = "http://localhost:[EXTERNAL_PORT]/reporte/";
 
 function reporteResumen(mes, ano) {
     return axios.get(REPORTE_API_URL + "resumen-reparaciones", {
