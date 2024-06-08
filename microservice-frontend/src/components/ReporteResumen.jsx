@@ -46,9 +46,9 @@ export default function ReporteResumen() {
                                 <option value="12">Diciembre</option>
                             </select>
                         </div>
-                        <div className="flex items-center    gap-4">
+                        <div className="flex items-center gap-4">
                             <label for="ano" class="block font-semibold text-gray-700">Año</label>
-                            <input type="number" id="ano" class="bg-white border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="" onChange={e => setAno(e.target.value)} required />
+                            <input type="number" id="ano" class="bg-white border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-32 p-2.5" placeholder="" onChange={e => setAno(e.target.value)} required />
                         </div>
                         <BotonNuevo onClick={manejarReporteResumen} tipoElemento={"Generar Reporte"}/>
                     </div>

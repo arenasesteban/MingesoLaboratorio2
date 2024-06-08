@@ -50,7 +50,7 @@ export default function VehiculosFormulario() {
                 </div>
                 <div className="bg-white mt-6 p-6 overflow-auto shadow-lg shadow-gray-200 rounded-xl">
                     <form>
-                        <div className="grid gap-6 grid-cols-2">
+                        <div className="grid gap-4 grid-cols-2">
                             <div>
                                 <label for="patente" class="block mb-2 font-semibold text-gray-700">Patente</label>
                                 <input type="text" id="patente" class="bg-gray-50 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="" onChange={e => setPatente(e.target.value.toUpperCase())} required />

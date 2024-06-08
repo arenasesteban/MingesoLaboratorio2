@@ -1,6 +1,7 @@
 import axios from "axios";
+import config from "./config";
 
-const VEHICULO_API_URL = "http://localhost:[EXTERNAL_PORT]/vehiculo/";
+const VEHICULO_API_URL = `http://localhost:${config.gatewayExternalPort}/vehiculo/`;
 
 function registrarVehiculo(vehiculo) {
     return axios.post(VEHICULO_API_URL, vehiculo)

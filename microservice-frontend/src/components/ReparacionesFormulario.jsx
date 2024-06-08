@@ -182,7 +182,7 @@ export default function ReparacionesFormulario() {
                             </div>
                             <div>
                                 <label htmlFor="disponibles" className="block mb-2 font-medium text-gray-700">Reparaciones disponibles</label>
-                                <div className="bg-gray-50 border border-gray-300 text-gray-700 text-sm rounded-lg block w-full h-[250px] overflow-auto p-2.5 space-y-2">
+                                <div className="bg-gray-50 border border-gray-300 text-gray-700 text-sm rounded-lg block w-full h-[140px] overflow-auto p-2.5 space-y-2">
                                     {reparaciones_disponibles.map((reparacion, index) => (
                                         <div className="flex gap-2 py-1 px-2 rounded-xl bg-gray-200" key={index}>
                                             <button type="button" onClick={() => manejarSeleccionarReparacion(index)}>
@@ -197,7 +197,7 @@ export default function ReparacionesFormulario() {
                             </div>
                             <div>
                                 <label htmlFor="seleccionadas" className="block mb-2 font-medium text-gray-700">Reparaciones seleccionadas</label>
-                                <div className="bg-gray-50 border border-gray-300 text-gray-700 text-sm rounded-lg block w-full h-[250px] overflow-auto p-2.5 space-y-2">
+                                <div className="bg-gray-50 border border-gray-300 text-gray-700 text-sm rounded-lg block w-full h-[140px] overflow-auto p-2.5 space-y-2">
                                     {reparaciones_seleccionadas.map((reparacion, index) => (
                                         <div className="flex gap-2 py-1 px-2 rounded-xl bg-gray-200" key={index}>
                                             <button type="button" onClick={() => manejarEliminarReparacion(index)}>
