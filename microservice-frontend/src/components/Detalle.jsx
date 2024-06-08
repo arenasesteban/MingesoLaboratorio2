@@ -69,7 +69,7 @@ export default function Detalle() {
                         <div className="bg-white rounded-xl w-[350px] px-6 py-4 space-y-2 shadow-md">
                             <h3 className="font-semibold uppercase text-gray-900">Reparación</h3>
                             <div className="flex gap-8">
-                                <div className="space-y-2 text-sm font-medium text-gray-800">
+                                <div className="space-y-2 w-1/2 text-sm font-medium text-gray-800">
                                     <h4>Fecha ingreso</h4>
                                     <h4>Hora ingreso</h4>
                                     <h4>Fecha salida</h4>
@@ -77,7 +77,7 @@ export default function Detalle() {
                                     <h4>Fecha retiro</h4> 
                                     <h4>Hora retiro</h4>
                                 </div>
-                                <div className="space-y-2 text-sm text-gray-800">
+                                <div className="space-y-2 w-1/2 text-sm text-gray-800">
                                     <p>{registro.fecha_ingreso}</p>
                                     <p>{registro.hora_ingreso}</p>
                                     <p>{registro.fecha_salida}</p>
