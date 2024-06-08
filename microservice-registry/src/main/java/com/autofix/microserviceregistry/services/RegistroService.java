@@ -271,19 +271,19 @@ public class RegistroService {
 
             reparacionMeses.setTipo_reparacion(tipo_reparacion);
 
-            int primer_mes = reparacionMeses.calcularMesAnterior(mes, 1);
+            int primer_mes = mes;
             CantidadMontoInterfaz cantidad_monto_1 = calcularCantidadYMontoReparacionPorMes(tipo_reparacion, primer_mes);
             reparacionMeses.setPrimer_mes(reparacionMeses.obtenerMes(primer_mes));
             reparacionMeses.setCantidad_primer_mes(cantidad_monto_1.getCantidad());
             reparacionMeses.setMonto_primer_mes(cantidad_monto_1.getMonto());
 
-            int segundo_mes = reparacionMeses.calcularMesAnterior(mes, 2);
+            int segundo_mes = reparacionMeses.calcularMesAnterior(mes, 1);
             CantidadMontoInterfaz cantidad_monto_2 = calcularCantidadYMontoReparacionPorMes(tipo_reparacion, segundo_mes);
             reparacionMeses.setSegundo_mes(reparacionMeses.obtenerMes(segundo_mes));
             reparacionMeses.setCantidad_segundo_mes(cantidad_monto_2.getCantidad());
             reparacionMeses.setMonto_segundo_mes(cantidad_monto_2.getMonto());
 
-            int tercer_mes = reparacionMeses.calcularMesAnterior(mes, 3);
+            int tercer_mes = reparacionMeses.calcularMesAnterior(mes, 2);
             CantidadMontoInterfaz cantidad_monto_3 = calcularCantidadYMontoReparacionPorMes(tipo_reparacion, tercer_mes);
             reparacionMeses.setTercer_mes(reparacionMeses.obtenerMes(tercer_mes));
             reparacionMeses.setCantidad_tercer_mes(cantidad_monto_3.getCantidad());
