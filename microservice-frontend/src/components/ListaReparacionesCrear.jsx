@@ -58,7 +58,7 @@ export default function ListaReparacionesCrear() {
                         <h2 className="text-gray-500 uppercase">Lista reparaciones - Crear</h2>
                     </div>
                 </div>
-                <div className="bg-white mt-6 p-6 overflow-auto shadow-lg shadow-gray-200 rounded-xl">
+                <div className="bg-white mt-6 p-6 shadow-lg shadow-gray-200 rounded-xl">
                     <form>
                         <div className="grid gap-4 grid-cols-5">
                             <div className="col-span-2">
@@ -82,9 +82,9 @@ export default function ListaReparacionesCrear() {
                                 <label for="cantidad" class="block mb-2 font-medium text-gray-700">Precio electrico</label>
                                 <input type="number" id="cantidad" class="bg-gray-50 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " value={precio_electrico } onChange={e => setPrecioElectrico(e.target.value)} required />
                             </div>
-                            <div className="flex items-end justify-between">
+                            <div className="flex items-end justify-around">
                                 <BotonNuevo onClick={manejarAñadirReparacion} />
-                                <BotonRegistrar onClick={manejarCrearReparaciones} tipoAccion={"Crear reparaciones"}/>
+                                <BotonRegistrar onClick={manejarCrearReparaciones} tipoAccion={"Terminar"}/>
                             </div>
                         </div>
                     </form>
