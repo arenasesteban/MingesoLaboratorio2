@@ -1,7 +1,6 @@
 import axios from "axios";
-import config from "./config";
 
-const REPARACION_API_URL = `http://localhost:${config.gatewayExternalPort}/reparacion/`;
+const REPARACION_API_URL = `http://localhost:8080/reparacion/`;
 
 function crearReparaciones(reparaciones) {
     return axios.post(REPARACION_API_URL, reparaciones);

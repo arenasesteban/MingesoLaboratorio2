@@ -1,7 +1,6 @@
 import axios from "axios";
-import config from "./config";
 
-const REGISTRO_API_URL = `http://localhost:${config.gatewayExternalPort}/registro/`;
+const REGISTRO_API_URL = `http://localhost:8080/registro/`;
 
 function crearRegistro(registro) {
     return axios.post(REGISTRO_API_URL, registro);
