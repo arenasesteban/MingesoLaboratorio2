@@ -1,0 +1,63 @@
+docker context use default
+
+minikube start --driver=docker
+minikube status
+
+kubectl apply -f postgres-config-map.yaml
+kubectl apply -f postgres-secrets.yaml
+
+kubectl apply -f registry-db-deployment-service.yaml
+kubectl apply -f repair-db-deployment-service.yaml
+kubectl apply -f vehicle-db-deployment-service.yaml
+
+kubectl exec -it registry-db-deployment[id_pod] -- /bin/bash
+psql -U postgres
+create database "registry-db";
+
+kubectl exec -it repair-db-deployment[id_pod] -- /bin/bash
+psql -U postgres
+create database "repair-db";
+
+kubectl exec -it vehicle-db-deployment[id_pod] -- /bin/bash
+psql -U postgres
+create database "vehicle-db";
+
+kubectl apply -f config-server-deployment-service.yaml
+kubectl apply -f eureka-server-deployment-service.yaml
+kubectl apply -f gateway-server-deployment-service.yaml
+
+kubectl apply -f microservice-registry-deployment.yaml
+kubectl apply -f microservice-repair-deployment.yaml
+kubectl apply -f microservice-vehicle-deployment.yaml
+kubectl apply -f microservice-reports-deployment.yaml
+
+kubectl logs -f config-server-deployment[id_pod]
+kubectl logs -f eureka-server-deployment[id_pod]
+kubectl logs -f gateway-server-deployment[id_pod]
+kubectl logs -f microservice-registry-deployment[id_pod]
+kubectl logs -f microservice-repair-deployment[id_pod]
+kubectl logs -f microservice-vehicle-deployment[id_pod]
+kubectl logs -f microservice-reports-deployment[id_pod]
+
+minikube service eureka-server-service
+
+kubectl apply -f microservice-frontend-deployment-service.yaml
+
+kubectl logs -f microservice-frontend-deployment[id_pod]
+
+minikube tunnel
+
+FRONTEND localhost:3000
+
+kubectl delete -f microservice-frontend-deployment-service.yaml
+
+kubectl delete -f microservice-registry-deployment.yaml
+kubectl delete -f microservice-repair-deployment.yaml
+kubectl delete -f microservice-vehicle-deployment.yaml
+kubectl delete -f microservice-reports-deployment.yaml
+
+kubectl delete -f config-server-deployment-service.yaml
+kubectl delete -f eureka-server-deployment-service.yaml
+kubectl delete -f gateway-server-deployment-service.yaml
+
+minikube stop
